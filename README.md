@@ -1,8 +1,13 @@
+<p align="center">
+  <a href="https://github.com/sponsors/niekes"><img src="https://img.shields.io/badge/Sponsor_next--js--ai--template-EA4AAA?logo=githubsponsors&logoColor=white&style=for-the-badge" alt="Sponsor next-js-ai-template"></a>
+</p>
+
 <h1 align="center">Next.js AI Template</h1>
 
 <p align="center">
   <strong>A Next.js starter built for AI coding agents.</strong><br>
-  Architecture, conventions and security rules enforced by tools that fail the build.
+  Architecture, conventions and security rules enforced by tools that fail the build.<br>
+  Free and open source, kept alive by one maintainer and the people who sponsor the work.
 </p>
 
 <p align="center">
@@ -11,6 +16,8 @@
   <img src=".github/badges/fallow-health.svg" alt="Fallow health">
   <img src=".github/badges/security-accepted.svg" alt="Accepted security risks">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
+  <a href="https://github.com/niekes/next-js-ai-template"><img src="https://img.shields.io/github/stars/niekes/next-js-ai-template" alt="GitHub stars"></a>
+  <a href="https://github.com/sponsors/niekes"><img src="https://img.shields.io/github/sponsors/niekes?logo=GitHub+Sponsors&logoColor=%23EA4AAA&style=flat" alt="GitHub Sponsors"></a>
 </p>
 
 <p align="center">
@@ -37,6 +44,7 @@
   <a href="#for-ai-agents">For AI agents</a> ·
   <a href="#make-it-yours">Make it yours</a> ·
   <a href="#deploy">Deploy</a> ·
+  <a href="#sponsor-next-js-ai-template">Sponsor</a> ·
   <a href="#license">License</a>
 </p>
 
@@ -103,12 +111,50 @@ Husky runs the fast part on commit and push.
    delete it (`src/features/notes/`, `src/lib/db/schema/notes.ts`,
    `src/app/api/notes/`, `src/app/dashboard/notes/`)
    and run `pnpm db:generate`.
+6. Delete `.github/FUNDING.yml` and the sponsor parts of this README, or point
+   them at your own sponsor page.
 
 ## Deploy
 
 `Dockerfile` builds a standalone Next.js server. Set `POSTGRES_URL`,
 `BETTER_AUTH_SECRET` and `BETTER_AUTH_URL`, and run `pnpm db:migrate` against
 the production database before starting a new version.
+
+## Sponsor next-js-ai-template
+
+**next-js-ai-template** is free, and it always will be. There is no company
+behind it, just one maintainer working in spare time, so the cost of keeping it
+alive is paid for by the people who depend on it.
+
+If this template saves you time, [become a sponsor](https://github.com/sponsors/niekes).
+
+| Tier        | What you get                                                                                |
+| ----------- | ------------------------------------------------------------------------------------------- |
+| **$5/mo**   | Your name in the [sponsors list](#sponsors) and my sincere thanks                           |
+| **$25/mo**  | The above, plus your logo in the README and priority issue triage                           |
+| **$100/mo** | The above, plus direct email access for feature requests and a mention in the release notes |
+
+Where the money goes:
+
+- **Issue triage and bug fixes.** Sponsorship buys a reply within a couple of days instead of whenever I get to it.
+- **A stack that keeps up.** Keeping Next.js, React, Better Auth, Drizzle, Tailwind and the tooling current.
+- **Gates that keep up.** New lint rules, Fallow checks and security gates as agents find new ways around them.
+- **Time for new work.** More worked examples, skills and generators.
+
+Prefer a one-off? The [sponsor page](https://github.com/sponsors/niekes) also takes one-time contributions.
+
+**Need a company sponsorship or an invoice?** [Get in touch](mailto:s@niekes.com).
+
+## Sponsors
+
+Thank you to the people who make this possible. Sponsors at $25/mo and above
+get their logo in this README; everyone gets their name below.
+
+<!-- New sponsors go below this line, one per line. -->
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=niekes/next-js-ai-template&type=date&legend=bottom-right)](https://www.star-history.com/#niekes/next-js-ai-template&type=date&legend=bottom-right)
 
 ## License
 
