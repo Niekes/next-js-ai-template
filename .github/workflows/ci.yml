@@ -1,0 +1,111 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  static:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/setup
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm fallow:check
+      - run: pnpm security
+
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/setup
+      - run: pnpm test --coverage
+      - name: Fallow (changed files)
+        if: github.event_name == 'pull_request'
+        run: pnpm fallow
+      - name: Fallow (full)
+        if: github.event_name != 'pull_request'
+        run: pnpm fallow:full
+      - uses: actions/upload-artifact@v6
+        if: github.event_name == 'push'
+        with:
+          name: coverage
+          path: coverage/
+          retention-days: 1
+
+  architecture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+      - name: Generate architecture diagrams
+        run: pnpm arch:diagram
+      - name: Install graphviz
+        run: sudo apt-get install -y graphviz
+      - name: Render actual-dependency SVG
+        run: dot -Tsvg reports/dependency-graph.dot -o reports/dependency-graph.svg
+      - uses: actions/upload-artifact@v6
+        with:
+          name: architecture-diagrams
+          path: reports/
+          retention-days: 14
+
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      POSTGRES_URL: postgres://postgres:postgres@localhost:54322/postgres
+      BETTER_AUTH_SECRET: dummy-secret-dummy-secret-dummy-secret
+      BETTER_AUTH_URL: http://localhost:3000
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+      - uses: actions/cache@v5
+        with:
+          path: .next/cache
+          key: ${{ runner.os }}-next-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('src/**', 'next.config.ts') }}
+          restore-keys: |
+            ${{ runner.os }}-next-${{ hashFiles('pnpm-lock.yaml') }}-
+            ${{ runner.os }}-next-
+      - run: pnpm build
+
+  badges:
+    if: github.event_name == 'push'
+    needs: test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+      - uses: actions/download-artifact@v7
+        with:
+          name: coverage
+          path: coverage
+      - name: Coverage badge
+        run: node scripts/coverage-badge.mjs
+      - name: Fallow health badge
+        run: pnpm exec fallow health --score --format badge --coverage coverage/coverage-final.json > .github/badges/fallow-health.svg
+      - name: Accepted security risks badge
+        run: pnpm security --badge
+      - name: Commit badges
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/badges
+          git diff --staged --quiet || git commit -m "chore(ci): update badges [skip ci]"
+          git push

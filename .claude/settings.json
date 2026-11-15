@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "deny": [
+      "Edit(/src/lib/db/migrations/**)",
+      "Edit(/pnpm-lock.yaml)",
+      "Edit(/.agents/**)",
+      "Edit(/src/components/ui/**)",
+      "Edit(/skills-lock.json)",
+      "Edit(/.github/badges/**)",
+      "Edit(/next-env.d.ts)",
+      "Edit(/*.tsbuildinfo)",
+      "Edit(/.env)",
+      "Edit(/node_modules/**)",
+      "Edit(/.next/**)",
+      "Edit(/coverage/**)",
+      "Edit(/reports/**)",
+      "Edit(/.fallow/**)",
+      "Read(/.env)"
+    ],
+    "ask": [
+      "Edit(/.fallowrc.json)",
+      "Edit(/.husky/**)",
+      "Edit(/.github/workflows/**)",
+      "Edit(/.github/actions/**)",
+      "Edit(/drizzle.config.ts)",
+      "Edit(/vitest.config.ts)",
+      "Edit(/.claude/settings.json)",
+      "Edit(/opencode.json)",
+      "Edit(/src/lib/architecture/**)",
+      "Edit(/security-accepted.json)",
+      "Edit(/scripts/security-gate.ts)"
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+.agents/
+plop-templates/
+pnpm-lock.yaml
+src/components/ui/
+src/lib/db/migrations/

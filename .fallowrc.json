@@ -1,0 +1,130 @@
+{
+  "$schema": "https://fallow.tools/schemas/fallowrc.json",
+  "plugins": ["next"],
+  "ignorePatterns": [".agents/**"],
+  "ignoreExports": [
+    {
+      "file": "src/components/ui/**",
+      "exports": ["*"]
+    }
+  ],
+  "duplicates": {
+    "threshold": 0.01
+  },
+  "rules": {
+    "unused-dev-dependencies": "error",
+    "type-only-dependencies": "error",
+    "test-only-dependencies": "error",
+    "dev-dependencies-in-production": "error",
+    "unused-catalog-entries": "error",
+    "empty-catalog-groups": "error",
+    "unused-dependency-overrides": "error",
+    "re-export-cycle": "error",
+    "package-cycle": "error",
+    "stale-suppressions": "error",
+    "added-suppression": "error"
+  },
+  "boundaries": {
+    "zones": [
+      {
+        "name": "app",
+        "patterns": ["src/app/**"],
+        "root": "."
+      },
+      {
+        "name": "shared",
+        "patterns": ["src/components/**", "src/lib/**", "src/const/**"],
+        "root": "."
+      },
+      {
+        "name": "root",
+        "patterns": ["src/proxy.ts"],
+        "root": "."
+      }
+    ],
+    "rules": [
+      {
+        "from": "app",
+        "allow": ["shared"]
+      },
+      {
+        "from": "root",
+        "allow": ["shared"]
+      },
+      {
+        "from": "shared",
+        "allow": []
+      }
+    ],
+    "coverage": {
+      "requireAllFiles": true,
+      "allowUnmatched": [
+        "vite.config.ts",
+        "drizzle.config.ts",
+        "vitest.config.ts",
+        "next.config.ts",
+        "postcss.config.mjs",
+        "plopfile.mjs",
+        "src/proxy.test.ts",
+        "scripts/**"
+      ]
+    }
+  },
+  "security": {
+    "categories": {
+      "include": [
+        "angular-trusted-html",
+        "cleartext-transport",
+        "code-injection",
+        "command-injection",
+        "dangerous-html",
+        "deprecated-cipher",
+        "dom-document-write",
+        "dynamic-module-load",
+        "dynamic-regex",
+        "electron-unsafe-webpreferences",
+        "hardcoded-secret",
+        "header-injection",
+        "insecure-cookie",
+        "insecure-randomness",
+        "insecure-temp-file",
+        "jquery-html",
+        "jwt-alg-none",
+        "jwt-verify-missing-algorithms",
+        "llm-call-injection",
+        "mass-assignment",
+        "mysql-multiple-statements",
+        "nextjs-open-redirect",
+        "nosql-injection",
+        "open-redirect",
+        "path-traversal",
+        "permissive-cors",
+        "postmessage-wildcard-origin",
+        "prototype-pollution",
+        "redos-regex",
+        "resource-amplification",
+        "route-send-file",
+        "secret-pii-log",
+        "secret-to-network",
+        "sql-injection",
+        "ssrf",
+        "ssti",
+        "template-escape-bypass",
+        "tls-validation-disabled",
+        "unsafe-buffer-alloc",
+        "unsafe-deserialization",
+        "weak-crypto",
+        "webview-injection",
+        "world-writable-permission",
+        "xpath-injection",
+        "xxe",
+        "zip-slip"
+      ]
+    }
+  },
+  "health": {
+    "maxCyclomatic": 15,
+    "maxCognitive": 12,
+    "maxCrap": 20
+  }
+}

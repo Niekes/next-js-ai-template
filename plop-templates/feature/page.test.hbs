@@ -1,0 +1,13 @@
+// @vitest-environment jsdom
+import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vite-plus/test";
+
+import Page from "@/app/dashboard/{{kebabCase name}}/page";
+
+describe("{{pascalCase name}}Page", () => {
+  it("renders the page title", () => {
+    render(<Page />);
+
+    expect(screen.getByText("{{titleCase name}}")).toBeTruthy();
+  });
+});

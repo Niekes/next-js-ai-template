@@ -1,0 +1,14 @@
+{
+  "src/proxy.ts": {
+    "open-redirect": {
+      "count": 1,
+      "reason": "The sign-in target is built from request.url, so it stays on this origin; `next` is only a query parameter, checked by returnPath"
+    }
+  },
+  "src/lib/fetch-json.ts": {
+    "ssrf": {
+      "count": 1,
+      "reason": "Called only by client hooks with same-origin /api paths"
+    }
+  }
+}

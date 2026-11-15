@@ -1,0 +1,24 @@
+# dependencies
+/node_modules
+/.pnpm-store
+
+# testing
+/coverage
+
+# architecture diagram artifacts (pnpm arch:diagram)
+/reports
+
+# next.js
+/.next/
+/out/
+/build
+next-env.d.ts
+*.tsbuildinfo
+
+# fallow cache
+/.fallow
+
+# misc
+.DS_Store
+*.pem
+.env

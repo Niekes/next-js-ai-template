@@ -1,0 +1,13 @@
+@startuml
+component [app]
+component [components]
+component [lib]
+component [const]
+
+[app] --> [components]
+[app] --> [lib]
+[app] --> [const]
+[components] --> [lib]
+[components] --> [const]
+[lib] --> [const]
+@enduml
