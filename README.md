@@ -1,6 +1,52 @@
-# Next.js AI Template
+<p align="center">
+  <a href="https://github.com/sponsors/niekes"><img src="https://img.shields.io/badge/Sponsor_next--js--ai--template-EA4AAA?logo=githubsponsors&logoColor=white&style=for-the-badge" alt="Sponsor next-js-ai-template"></a>
+</p>
 
-![coverage](.github/badges/coverage.svg) ![fallow health](.github/badges/fallow-health.svg) ![accepted security risks](.github/badges/security-accepted.svg)
+<h1 align="center">Next.js AI Template</h1>
+
+<p align="center">
+  <strong>A Next.js starter built for AI coding agents.</strong><br>
+  Architecture, conventions and security rules enforced by tools that fail the build.<br>
+  Free and open source, kept alive by one maintainer and the people who sponsor the work.
+</p>
+
+<p align="center">
+  <a href="https://github.com/Niekes/next-js-ai-template/actions/workflows/ci.yml"><img src="https://github.com/Niekes/next-js-ai-template/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI"></a>
+  <img src=".github/badges/coverage.svg" alt="Coverage">
+  <img src=".github/badges/fallow-health.svg" alt="Fallow health">
+  <img src=".github/badges/security-accepted.svg" alt="Accepted security risks">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
+  <a href="https://github.com/niekes/next-js-ai-template"><img src="https://img.shields.io/github/stars/niekes/next-js-ai-template" alt="GitHub stars"></a>
+  <a href="https://github.com/sponsors/niekes"><img src="https://img.shields.io/github/sponsors/niekes?logo=GitHub+Sponsors&logoColor=%23EA4AAA&style=flat" alt="GitHub Sponsors"></a>
+</p>
+
+<p align="center">
+  <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-16.4.6-000000?logo=nextdotjs&logoColor=white" alt="Next.js"></a>
+  <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19.3.1-61DAFB?logo=react&logoColor=black" alt="React"></a>
+  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript&logoColor=white" alt="TypeScript"></a>
+  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-26-5FA04E?logo=nodedotjs&logoColor=white" alt="Node.js"></a>
+  <a href="https://pnpm.io/"><img src="https://img.shields.io/badge/pnpm-12.14.0-F69220?logo=pnpm&logoColor=white" alt="pnpm"></a>
+  <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/PostgreSQL-18-4169E1?logo=postgresql&logoColor=white" alt="PostgreSQL"></a>
+  <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-4.3.5-06B6D4?logo=tailwindcss&logoColor=white" alt="Tailwind CSS"></a>
+  <a href="https://ui.shadcn.com/"><img src="https://img.shields.io/badge/shadcn%2Fui-000000?logo=shadcnui&logoColor=white" alt="shadcn/ui"></a>
+  <a href="https://tanstack.com/query"><img src="https://img.shields.io/badge/TanStack_Query-FF4154?logo=reactquery&logoColor=white" alt="TanStack Query"></a>
+  <a href="https://zod.dev/"><img src="https://img.shields.io/badge/Zod-3E67B1?logo=zod&logoColor=white" alt="Zod"></a>
+  <a href="https://orm.drizzle.team/"><img src="https://img.shields.io/badge/Drizzle-C5F74F?logo=drizzle&logoColor=black" alt="Drizzle"></a>
+  <a href="https://www.better-auth.com/"><img src="https://img.shields.io/badge/Better_Auth-000000?logo=betterauth&logoColor=white" alt="Better Auth"></a>
+  <a href="https://vitest.dev/"><img src="https://img.shields.io/badge/Vitest-6E9F18?logo=vitest&logoColor=white" alt="Vitest"></a>
+  <a href="https://oxc.rs/"><img src="https://img.shields.io/badge/Oxlint-32F3E9" alt="Oxlint"></a>
+  <a href="https://fallow.tools/"><img src="https://img.shields.io/badge/Fallow-555555" alt="Fallow"></a>
+</p>
+
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#what-keeps-the-code-in-shape">Guardrails</a> ·
+  <a href="#for-ai-agents">For AI agents</a> ·
+  <a href="#make-it-yours">Make it yours</a> ·
+  <a href="#deploy">Deploy</a> ·
+  <a href="#sponsor-next-js-ai-template">Sponsor</a> ·
+  <a href="#license">License</a>
+</p>
 
 A Next.js starter built for AI coding agents. Its architecture, conventions
 and security rules are not just written down: they are enforced by tools that
@@ -71,6 +117,42 @@ Husky runs the fast part on commit and push.
 `Dockerfile` builds a standalone Next.js server. Set `POSTGRES_URL`,
 `BETTER_AUTH_SECRET` and `BETTER_AUTH_URL`, and run `pnpm db:migrate` against
 the production database before starting a new version.
+
+## Sponsor next-js-ai-template
+
+**next-js-ai-template** is free, and it always will be. There is no company
+behind it, just one maintainer working in spare time, so the cost of keeping it
+alive is paid for by the people who depend on it.
+
+If this template saves you time, [become a sponsor](https://github.com/sponsors/niekes).
+
+| Tier        | What you get                                                                                |
+| ----------- | ------------------------------------------------------------------------------------------- |
+| **$5/mo**   | Your name in the [sponsors list](#sponsors) and my sincere thanks                           |
+| **$25/mo**  | The above, plus your logo in the README and priority issue triage                           |
+| **$100/mo** | The above, plus direct email access for feature requests and a mention in the release notes |
+
+Where the money goes:
+
+- **Issue triage and bug fixes.** Sponsorship buys a reply within a couple of days instead of whenever I get to it.
+- **A stack that keeps up.** Keeping Next.js, React, Better Auth, Drizzle, Tailwind and the tooling current.
+- **Gates that keep up.** New lint rules, Fallow checks and security gates as agents find new ways around them.
+- **Time for new work.** More worked examples, skills and generators.
+
+Prefer a one-off? The [sponsor page](https://github.com/sponsors/niekes) also takes one-time contributions.
+
+**Need a company sponsorship or an invoice?** [Get in touch](mailto:s@niekes.com).
+
+## Sponsors
+
+Thank you to the people who make this possible. Sponsors at $25/mo and above
+get their logo in this README; everyone gets their name below.
+
+<!-- New sponsors go below this line, one per line. -->
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=niekes/next-js-ai-template&type=date&legend=bottom-right)](https://www.star-history.com/#niekes/next-js-ai-template&type=date&legend=bottom-right)
 
 ## License
 
