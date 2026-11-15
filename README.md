@@ -1,6 +1,44 @@
-# Next.js AI Template
+<h1 align="center">Next.js AI Template</h1>
 
-![coverage](.github/badges/coverage.svg) ![fallow health](.github/badges/fallow-health.svg) ![accepted security risks](.github/badges/security-accepted.svg)
+<p align="center">
+  <strong>A Next.js starter built for AI coding agents.</strong><br>
+  Architecture, conventions and security rules enforced by tools that fail the build.
+</p>
+
+<p align="center">
+  <a href="https://github.com/Niekes/next-js-ai-template/actions/workflows/ci.yml"><img src="https://github.com/Niekes/next-js-ai-template/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI"></a>
+  <img src=".github/badges/coverage.svg" alt="Coverage">
+  <img src=".github/badges/fallow-health.svg" alt="Fallow health">
+  <img src=".github/badges/security-accepted.svg" alt="Accepted security risks">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
+</p>
+
+<p align="center">
+  <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-16.4.6-000000?logo=nextdotjs&logoColor=white" alt="Next.js"></a>
+  <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19.3.1-61DAFB?logo=react&logoColor=black" alt="React"></a>
+  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript&logoColor=white" alt="TypeScript"></a>
+  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-26-5FA04E?logo=nodedotjs&logoColor=white" alt="Node.js"></a>
+  <a href="https://pnpm.io/"><img src="https://img.shields.io/badge/pnpm-12.14.0-F69220?logo=pnpm&logoColor=white" alt="pnpm"></a>
+  <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/PostgreSQL-18-4169E1?logo=postgresql&logoColor=white" alt="PostgreSQL"></a>
+  <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-4.3.5-06B6D4?logo=tailwindcss&logoColor=white" alt="Tailwind CSS"></a>
+  <a href="https://ui.shadcn.com/"><img src="https://img.shields.io/badge/shadcn%2Fui-000000?logo=shadcnui&logoColor=white" alt="shadcn/ui"></a>
+  <a href="https://tanstack.com/query"><img src="https://img.shields.io/badge/TanStack_Query-FF4154?logo=reactquery&logoColor=white" alt="TanStack Query"></a>
+  <a href="https://zod.dev/"><img src="https://img.shields.io/badge/Zod-3E67B1?logo=zod&logoColor=white" alt="Zod"></a>
+  <a href="https://orm.drizzle.team/"><img src="https://img.shields.io/badge/Drizzle-C5F74F?logo=drizzle&logoColor=black" alt="Drizzle"></a>
+  <a href="https://www.better-auth.com/"><img src="https://img.shields.io/badge/Better_Auth-000000?logo=betterauth&logoColor=white" alt="Better Auth"></a>
+  <a href="https://vitest.dev/"><img src="https://img.shields.io/badge/Vitest-6E9F18?logo=vitest&logoColor=white" alt="Vitest"></a>
+  <a href="https://oxc.rs/"><img src="https://img.shields.io/badge/Oxlint-32F3E9" alt="Oxlint"></a>
+  <a href="https://fallow.tools/"><img src="https://img.shields.io/badge/Fallow-555555" alt="Fallow"></a>
+</p>
+
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#what-keeps-the-code-in-shape">Guardrails</a> ·
+  <a href="#for-ai-agents">For AI agents</a> ·
+  <a href="#make-it-yours">Make it yours</a> ·
+  <a href="#deploy">Deploy</a> ·
+  <a href="#license">License</a>
+</p>
 
 A Next.js starter built for AI coding agents. Its architecture, conventions
 and security rules are not just written down: they are enforced by tools that
