@@ -48,7 +48,7 @@ Husky runs the fast part on commit and push.
 - [AGENTS.md](AGENTS.md) (also loaded as `CLAUDE.md`) — commands, layout, protected paths
 - [docs/](docs/) — architecture, conventions, database, quality gates, workflow
 - [GLOSSARY.md](GLOSSARY.md) and [docs/adr/](docs/adr/) — domain language and decisions
-- `.agents/skills/` — vendored skills (grilling, domain modeling, TDD, review, Fallow, security audit)
+- `.agents/skills/` — vendored skills (grilling, spec, tickets, implement, domain modeling, TDD, review, Fallow, security audit); the flow is in [docs/workflow.md](docs/workflow.md#flow)
 - `pnpm gen component <name>` / `pnpm gen feature <name>` — scaffold convention-correct code with a test
 
 ## Make it yours

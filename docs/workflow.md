@@ -15,14 +15,52 @@ Hooks run the fast part locally: pre-commit runs `vp staged`, typecheck and
 `pnpm security`. The audit compares against the merge-base with
 `origin/main`, so run `git fetch origin main` if it reports a stale base.
 
-## From idea to code
+## Setup
 
-1. **Stress-test** the idea with `/grilling`, or `/grill-with-docs` when
-   domain terms matter (it records terms in `GLOSSARY.md` and decisions in
-   `docs/adr/`).
-2. **Scaffold** with `pnpm gen component <name>` or `pnpm gen feature <name>`.
-3. **Build test-first** with `/tdd`.
-4. **Review** with `/code-review` or `/fallow-review`, then `pnpm verify`.
+The idea-to-code flow uses [Matt Pocock's skills](https://github.com/mattpocock/skills),
+vendored in `.agents/skills/`, linked from `.claude/skills/` and pinned in
+`skills-lock.json`. A fresh clone already has them. To add or update one,
+use the owning CLI (never edit `.agents/**` by hand):
+
+```bash
+npx skills@latest add mattpocock/skills -s <skill> -a claude-code -a opencode -y
+npx skills@latest update -p
+```
+
+`/setup-matt-pocock-skills` has already been run and its output committed:
+issues live in GitHub Issues ([docs/agents/issue-tracker.md](agents/issue-tracker.md)),
+and the domain docs are single-context ([docs/agents/domain.md](agents/domain.md)).
+Run it again only to switch trackers. `/to-spec` and `/to-tickets` apply
+the `ready-for-agent` label. A repo made from this template needs that
+label once:
+
+```bash
+gh label create ready-for-agent --description "Ready for an agent to implement"
+```
+
+## Flow
+
+1. **Grill** the idea with `/grill-with-docs`. It interviews you until the
+   plan is shared, and records terms in `GLOSSARY.md` and decisions in
+   `docs/adr/`.
+2. **Fork** on size:
+   - Fits one session: go straight to step 4.
+   - Needs several: `/to-spec` turns the conversation into a spec issue,
+     then `/to-tickets` slices it into vertical-slice issues, each sized
+     for one context window and listing its blockers.
+3. **Clear context** (`/clear`) before each ticket. A fresh window keeps
+   the agent sharp.
+4. **Implement** with `/implement <ticket>`. It builds test-first with
+   `/tdd`, reviews in a sub-agent with `/code-review`, then commits.
+   Scaffold new code with `pnpm gen component|feature <name>`, and make
+   sure `pnpm verify` passes before the commit. Repeat 3 and 4 for each
+   unblocked ticket.
+5. **Open a PR** (see [Pull requests](#pull-requests)).
+
+Side skills for when the main flow is not the right fit: `/grilling`
+(stress-test a plan without touching docs), `/prototype` (throwaway answer
+to a design question), `/research`, `/diagnosing-bugs`, `/codebase-design`,
+`/fallow-review` (graph-grounded review) and `/security-audit`.
 
 ## Commits
 
