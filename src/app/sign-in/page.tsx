@@ -28,7 +28,10 @@ const SignInPage = () => {
   const submit = async (form: FormData) => {
     setError(null);
     setPending(true);
-    const result = await submitCredentials(mode, form);
+    // better-fetch throws (not returns) on network errors, so both paths re-enable the button
+    const result = await submitCredentials(mode, form).catch(() => ({
+      error: { message: undefined },
+    }));
     if (result.error) {
       setPending(false);
       setError(result.error.message ?? "Sign-in failed");

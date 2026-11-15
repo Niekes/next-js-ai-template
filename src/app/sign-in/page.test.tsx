@@ -107,3 +107,15 @@ describe("SignInPage while a request runs", () => {
     );
   });
 });
+
+describe("SignInPage on a network error", () => {
+  it("shows an error and re-enables the button when the request throws", async () => {
+    signIn.mockRejectedValue(new TypeError("Failed to fetch"));
+    render(<SignInPage />);
+
+    submit("Sign in");
+
+    expect((await screen.findByRole("alert")).textContent).toBe("Sign-in failed");
+    expect(screen.getByRole<HTMLButtonElement>("button", { name: "Sign in" }).disabled).toBe(false);
+  });
+});
