@@ -52,6 +52,7 @@ const LINT_IGNORES = [
 const GUARDRAIL_FILES = [
   ".claude/settings.json",
   "opencode.json",
+  ".mcp.json",
   "src/lib/architecture/**",
   "security-accepted.json",
   "scripts/security-gate.ts",

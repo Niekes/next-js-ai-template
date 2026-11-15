@@ -2,9 +2,9 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import type { NoteInput } from "@/features/notes/api/note-input";
 import type { Note } from "@/lib/db/schema";
 import { fetchJson } from "@/lib/fetch-json";
-import type { NoteInput } from "@/lib/notes";
 import { queryKeys } from "@/lib/query-keys";
 
 // Dates arrive as JSON strings

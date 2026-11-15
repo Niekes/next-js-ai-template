@@ -32,6 +32,12 @@
         "root": "."
       },
       {
+        "name": "features",
+        "patterns": ["src/features/**"],
+        "autoDiscover": ["src/features"],
+        "root": "."
+      },
+      {
         "name": "shared",
         "patterns": ["src/components/**", "src/lib/**", "src/const/**"],
         "root": "."
@@ -45,6 +51,10 @@
     "rules": [
       {
         "from": "app",
+        "allow": ["features", "shared"]
+      },
+      {
+        "from": "features",
         "allow": ["shared"]
       },
       {

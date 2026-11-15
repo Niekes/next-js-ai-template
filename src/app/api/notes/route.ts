@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 
+import { noteInput } from "@/features/notes/api/note-input";
+import { createNote, listNotes } from "@/features/notes/server/notes";
 import { parseBody } from "@/lib/auth/middleware";
-import { createNote, getUser, listNotes } from "@/lib/db/queries";
-import { noteInput } from "@/lib/notes";
+import { getUser } from "@/lib/db/queries";
 
 export const GET = async () => {
   const user = await getUser();

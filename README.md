@@ -57,8 +57,8 @@ Husky runs the fast part on commit and push.
    the heading in `src/app/page.tsx`.
 3. Replace the terms in `GLOSSARY.md` with your domain's.
 4. Keep the notes example as a reference until your first feature exists, then
-   delete it (`src/lib/db/schema/notes.ts`, `src/lib/notes.ts`,
-   `src/lib/hooks/use-notes.ts`, `src/app/api/notes/`, `src/app/dashboard/notes/`)
+   delete it (`src/features/notes/`, `src/lib/db/schema/notes.ts`,
+   `src/app/api/notes/`, `src/app/dashboard/notes/`)
    and run `pnpm db:generate`.
 
 ## Deploy

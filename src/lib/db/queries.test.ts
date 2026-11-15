@@ -11,7 +11,7 @@ vi.mock("next/headers", () => ({
 vi.mock("@/lib/auth", () => ({ auth: { api: { getSession: mockGetSession } } }));
 vi.mock("@/lib/db/drizzle", () => ({ db: mocks.chain }));
 
-const { createNote, getUser, listNotes, listUsers } = await import("./queries");
+const { getUser, listUsers } = await import("./queries");
 
 const methods = () => mocks.calls.map((call) => call.method);
 
@@ -44,21 +44,7 @@ describe("getUser", () => {
   });
 });
 
-describe("notes and users", () => {
-  it("lists a user's notes newest first", async () => {
-    mocks.results.push([{ id: 1, text: "hi" }]);
-
-    expect(await listNotes("u1")).toEqual([{ id: 1, text: "hi" }]);
-    expect(methods()).toEqual(["select", "from", "where", "orderBy"]);
-  });
-
-  it("creates a note for the user and returns it", async () => {
-    mocks.results.push([{ id: 2, userId: "u1", text: "new" }]);
-
-    expect(await createNote("u1", "new")).toEqual({ id: 2, userId: "u1", text: "new" });
-    expect(mocks.calls[1]).toEqual({ method: "values", args: [{ userId: "u1", text: "new" }] });
-  });
-
+describe("listUsers", () => {
   it("lists users ordered by email", async () => {
     mocks.results.push([{ id: "u1", email: "a@example.com" }]);
 

@@ -1,4 +1,5 @@
 {
+  "enableAllProjectMcpServers": true,
   "permissions": {
     "deny": [
       "Edit(/src/lib/db/migrations/**)",
@@ -26,6 +27,7 @@
       "Edit(/vitest.config.ts)",
       "Edit(/.claude/settings.json)",
       "Edit(/opencode.json)",
+      "Edit(/.mcp.json)",
       "Edit(/src/lib/architecture/**)",
       "Edit(/security-accepted.json)",
       "Edit(/scripts/security-gate.ts)"

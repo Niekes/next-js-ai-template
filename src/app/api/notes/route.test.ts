@@ -5,8 +5,8 @@ const { mockGetUser, mockListNotes, mockCreateNote } = vi.hoisted(() => ({
   mockListNotes: vi.fn<(userId: string) => Promise<unknown>>(),
   mockCreateNote: vi.fn<(userId: string, text: string) => Promise<unknown>>(),
 }));
-vi.mock("@/lib/db/queries", () => ({
-  getUser: mockGetUser,
+vi.mock("@/lib/db/queries", () => ({ getUser: mockGetUser }));
+vi.mock("@/features/notes/server/notes", () => ({
   listNotes: mockListNotes,
   createNote: mockCreateNote,
 }));

@@ -18,6 +18,21 @@
       "type": "remote",
       "url": "https://mcp.better-auth.com/mcp",
       "enabled": true
+    },
+    "bulletproof-react": {
+      "type": "remote",
+      "url": "https://gitmcp.io/alan2207/bulletproof-react",
+      "enabled": true
+    },
+    "chrome-devtools": {
+      "type": "local",
+      "command": ["npx", "-y", "chrome-devtools-mcp@latest"],
+      "enabled": true
+    },
+    "shadcn": {
+      "type": "local",
+      "command": ["npx", "shadcn", "mcp"],
+      "enabled": true
     }
   },
   "permission": {
@@ -31,6 +46,7 @@
       "vitest.config.ts": "ask",
       ".claude/settings.json": "ask",
       "opencode.json": "ask",
+      ".mcp.json": "ask",
       "src/lib/architecture/**": "ask",
       "security-accepted.json": "ask",
       "scripts/security-gate.ts": "ask",

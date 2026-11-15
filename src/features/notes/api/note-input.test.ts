@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { noteInput } from "./notes";
+import { noteInput } from "./note-input";
 
 describe("noteInput", () => {
   it("trims the text", () => {
