@@ -24,10 +24,13 @@ const files = (dir: string): string[] =>
 const SERVER_IMPORT = /(from|import)\s*\(?\s*["'](\.{1,2}|@)\/[^"']*\bserver(\/[^"']*)?["']/;
 const importsServer = (code: string) => SERVER_IMPORT.test(code);
 
-// Hidden entries such as macOS .DS_Store are not part of a feature
-const visible = (dir: string) => readdirSync(dir).filter((entry) => !entry.startsWith("."));
+// Hidden files such as macOS .DS_Store are not part of a feature; hidden folders still count
+const entries = (dir: string) =>
+  readdirSync(dir, { withFileTypes: true })
+    .filter((entry) => !(entry.isFile() && entry.name.startsWith(".")))
+    .map((entry) => entry.name);
 
-const features = existsSync(FEATURES) ? visible(FEATURES) : [];
+const features = existsSync(FEATURES) ? entries(FEATURES) : [];
 const rel = (file: string) => path.relative(ROOT, file);
 
 describe("feature structure", () => {
@@ -43,7 +46,7 @@ describe("feature structure", () => {
 
   it("holds only the agreed folders in each feature", () => {
     const offenders = features.flatMap((feature) =>
-      visible(path.join(FEATURES, feature))
+      entries(path.join(FEATURES, feature))
         .filter((entry) => !FOLDERS.includes(entry))
         .map((entry) => `src/features/${feature}/${entry}`),
     );
