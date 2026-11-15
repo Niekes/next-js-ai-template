@@ -23,7 +23,7 @@ The AI layer — `AGENTS.md`, `docs/`, vendored skills, MCP servers — is
 advisory: it explains the rules and points to the tools, but it does not
 replace them. The one exception is the agent permission config
 (`.claude/settings.json`, `opencode.json`), which denies edits to generated
-files and asks a human before an agent edits a gate.
+files and asks a human before an agent edits a gate (see the amendment below).
 
 The gates start at full strictness on day one (100 % coverage, no warnings,
 no suppressions, any clone fails), because an empty project is the cheapest
@@ -38,3 +38,14 @@ point to be strict and loosening later is easier than tightening.
   that define the gates need human approval to edit.
 - Strict gates make small changes slower: every line needs a test, every
   clone needs extracting. That cost is deliberate.
+
+## Amendment (2026-11-15)
+
+The permission config is not an exception after all: its rules cover only
+the file-editing tools, and a shell command (`sed -i`, `cat >`, a script)
+writes past them. It is advisory like the rest of the AI layer. The backstops
+for a weakened gate are the gate tests and CI, and pull-request review:
+`.github/CODEOWNERS` names a human owner for every file on the
+human-approval list in `AGENTS.md`, and `security-wiring.test.ts` fails when
+the two lists drift apart. Review only blocks a merge once `main` requires
+code-owner review (see the README).

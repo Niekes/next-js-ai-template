@@ -27,6 +27,7 @@
       ".husky/**": "ask",
       ".github/workflows/**": "ask",
       ".github/actions/**": "ask",
+      ".github/CODEOWNERS": "ask",
       "drizzle.config.ts": "ask",
       "vitest.config.ts": "ask",
       ".claude/settings.json": "ask",

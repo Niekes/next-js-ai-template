@@ -36,7 +36,14 @@ const SignInPage = () => {
 
   return (
     <AppPage title={mode === "sign-in" ? "Sign in" : "Create account"}>
-      <form action={submit} className="grid max-w-sm gap-4">
+      {/* onSubmit, not action: React resets an action form even when sign-in fails */}
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          void submit(new FormData(event.currentTarget));
+        }}
+        className="grid max-w-sm gap-4"
+      >
         {mode === "sign-up" && <AppInput label="Name" name="name" required autoComplete="name" />}
         <AppInput label="Email" name="email" type="email" required autoComplete="email" />
         <AppInput label="Password" name="password" type="password" required minLength={8} />

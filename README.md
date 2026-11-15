@@ -37,7 +37,8 @@ yourself admin, set your `role` to `admin` in `pnpm db:studio`.
 | Security           | `fallow security` + `security-accepted.json`                | a new risky sink without a human-approved reason                           |
 | Auth on API routes | `route-auth.test.ts`                                        | a handler without `withAdmin*` or an opening `getUser()` check             |
 | Gate integrity     | `coverage-gate`, `security-wiring`, `lint-directives` tests | a threshold, ignore list or hook is weakened, or a disable comment appears |
-| Agent permissions  | `.claude/settings.json`, `opencode.json`                    | an agent edits generated files (denied) or gate files (asks a human)       |
+| Agent permissions  | `.claude/settings.json`, `opencode.json`                    | an agent's edit tool touches generated files (denied) or gate files (asks) |
+| Gate ownership     | `.github/CODEOWNERS` (pinned by `security-wiring` test)     | a pull request changes a gate file without a human approval                |
 
 All of it runs in one command, `pnpm verify`, which is also what CI runs.
 Husky runs the fast part on commit and push.
@@ -56,7 +57,11 @@ Husky runs the fast part on commit and push.
 2. Rename the package in `package.json`, the title in `src/app/layout.tsx` and
    the heading in `src/app/page.tsx`.
 3. Replace the terms in `GLOSSARY.md` with your domain's.
-4. Keep the notes example as a reference until your first feature exists, then
+4. Put your GitHub user or team in `.github/CODEOWNERS`, then protect `main`
+   with a ruleset that requires a pull request with code-owner review, so gate
+   changes need a human. Add "GitHub Actions" to the ruleset's bypass list,
+   or the CI job that commits the README badges to `main` cannot push.
+5. Keep the notes example as a reference until your first feature exists, then
    delete it (`src/lib/db/schema/notes.ts`, `src/lib/notes.ts`,
    `src/lib/hooks/use-notes.ts`, `src/app/api/notes/`, `src/app/dashboard/notes/`)
    and run `pnpm db:generate`.

@@ -42,7 +42,7 @@ describe("SignInPage", () => {
     expect(signIn).toHaveBeenCalledWith({ email: "a@example.com", password: "password123" });
   });
 
-  it("shows the server's error and stays on the page", async () => {
+  it("shows the server's error and keeps what the user typed", async () => {
     signIn.mockResolvedValue({ error: { message: "Invalid email or password" } });
     render(<SignInPage />);
 
@@ -50,6 +50,7 @@ describe("SignInPage", () => {
 
     expect((await screen.findByRole("alert")).textContent).toBe("Invalid email or password");
     expect(push).not.toHaveBeenCalled();
+    expect(screen.getByLabelText<HTMLInputElement>("Email").value).toBe("a@example.com");
   });
 
   it("falls back to a generic error without a message", async () => {
