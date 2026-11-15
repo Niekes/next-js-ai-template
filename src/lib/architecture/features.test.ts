@@ -21,7 +21,7 @@ const files = (dir: string): string[] =>
 
 // Static, side-effect and dynamic imports. Relative and @/ specifiers only, so
 // `next/server` is not mistaken for a feature's server/
-const SERVER_IMPORT = /(from|import)\s*\(?\s*"(\.{1,2}|@)\/[^"]*\bserver(\/[^"]*)?"/;
+const SERVER_IMPORT = /(from|import)\s*\(?\s*["'](\.{1,2}|@)\/[^"']*\bserver(\/[^"']*)?["']/;
 const importsServer = (code: string) => SERVER_IMPORT.test(code);
 
 const features = existsSync(FEATURES) ? readdirSync(FEATURES) : [];
@@ -32,6 +32,7 @@ describe("feature structure", () => {
     expect(importsServer('import { x } from "../server/notes";')).toBe(true);
     expect(importsServer('import { x } from "@/features/notes/server/notes";')).toBe(true);
     expect(importsServer('import "../server/setup";')).toBe(true);
+    expect(importsServer("import { x } from '../server/notes';")).toBe(true);
     expect(importsServer('const m = await import("@/features/notes/server/notes");')).toBe(true);
     expect(importsServer('import { NextResponse } from "next/server";')).toBe(false);
     expect(importsServer('import { x } from "@/lib/observer";')).toBe(false);

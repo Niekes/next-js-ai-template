@@ -40,8 +40,8 @@ owning tool instead (`pnpm db:generate`, `pnpm install`, `pnpm dlx shadcn add`, 
 - `.env` (no reads either), plus build output and caches
 
 Edit only with human approval: `.fallowrc.json`, `.husky/**`,
-`.github/workflows/**`, `.github/actions/**`, `.github/CODEOWNERS`, `drizzle.config.ts`,
-`vitest.config.ts` (coverage gate), `security-accepted.json`,
+`.github/workflows/**`, `.github/actions/**`, `.github/CODEOWNERS`,
+`drizzle.config.ts`, `vitest.config.ts` (coverage gate), `security-accepted.json`,
 `scripts/security-gate.ts`, `src/lib/architecture/**`, `.claude/settings.json`,
 `opencode.json`, `.mcp.json`.
 

@@ -7,8 +7,8 @@
 
 The template started with three zones: `app`, `shared` and `root`. A feature
 spread across `app/`, `lib/db/`, `lib/hooks/` and `lib/`, so nothing kept
-features apart, and `lib/` grew into a place for everything. Projects built
-from the template had the bulletproof-react docs as an MCP server, but no tool
+features apart, and `lib/` grew into a place for everything. A project built
+from this template had the bulletproof-react docs as an MCP server, but no tool
 checked the structure, so the code did not follow it (see ADR 0001: written
 rules hold only some of the time).
 
@@ -29,8 +29,10 @@ Adopt the bulletproof-react layering, enforced by tools:
   in `src/lib/query-keys.ts` (one place lists every cache key).
 
 The MCP servers both agents use are now fixed in `.mcp.json` and
-`opencode.json` (each at an exact version), and `mcp-wiring.test.ts` fails if the two lists differ. This
-gates the configuration only: whether an agent calls a server stays advisory,
+`opencode.json`, and `mcp-wiring.test.ts` fails if the two lists differ.
+Servers fetched by `npx` carry an exact version; `fallow-mcp` and `shadcn`
+come from devDependencies and follow the lockfile. This gates the
+configuration only: whether an agent calls a server stays advisory,
 as ADR 0001 says.
 
 ## Consequences
