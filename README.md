@@ -41,7 +41,8 @@ yourself admin, set your `role` to `admin` in `pnpm db:studio`.
 | CI & supply chain  | SHA-pinned actions, zizmor, `pnpm audit`, pnpm trust policy | an unpinned action, a workflow flaw, a high advisory, a trust downgrade    |
 | Gate ownership     | `.github/CODEOWNERS` (pinned by `security-wiring` test)     | a pull request changes a gate file without a human approval                |
 
-All of it runs in one command, `pnpm verify`, which is also what CI runs.
+All of it runs in one command, `pnpm verify`, which is also what CI runs
+(CI adds the network-bound `pnpm audit` and zizmor).
 Husky runs the fast part on commit and push.
 
 ## For AI agents

@@ -26,9 +26,29 @@ describe("agent shell guard", () => {
     expect(blockReason("rm -rf .next node_modules coverage")).toBeUndefined();
     expect(blockReason("git checkout -b feat/x && git add .claude/settings.json")).toBeUndefined();
     expect(blockReason("cp .env.example env.txt")).toBeUndefined();
+    expect(blockReason("sed -n 1,20p vitest.config.ts")).toBeUndefined();
+    expect(blockReason("perl -ne 'print if /x/' vitest.config.ts")).toBeUndefined();
+    expect(blockReason("git commit -m 'fix: x'")).toBeUndefined();
+  });
+
+  it.each([
+    "sed -Ei 's/a/b/' vitest.config.ts",
+    "sed -i.bak 's/a/b/' vitest.config.ts",
+    "sed -e 's/a/b/' -i vitest.config.ts",
+    "sed --in-place 's/a/b/' vitest.config.ts",
+    "perl -pi -e 's/a/b/' vitest.config.ts",
+    "echo x >| vitest.config.ts",
+    "touch vitest.config.ts",
+    "chmod +x .husky/pre-push",
+    "patch vitest.config.ts fix.diff",
+    "git apply fix.diff -- vitest.config.ts",
+  ])("blocks in-place edits, >| and other writes: %s", (command) => {
+    expect(blockReason(command)).toBeDefined();
   });
 
   it("blocks skipping the git hooks and touching .env", () => {
+    expect(blockReason("git commit -n -m x")).toMatch(/hooks/);
+    expect(blockReason("git -c core.hooksPath=/dev/null commit -m x")).toMatch(/hooks/);
     expect(blockReason("git commit --no-verify -m x")).toMatch(/hooks/);
     expect(blockReason("HUSKY=0 git push")).toMatch(/hooks/);
     expect(blockReason("cat .env")).toMatch(/\.env/);

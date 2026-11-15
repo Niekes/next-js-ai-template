@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 
 import { describe, expect, it } from "vite-plus/test";
@@ -155,7 +155,11 @@ describe("agent, CI and supply-chain wiring", () => {
   });
 
   it("pins every action to a commit SHA and gives CI a read-only token by default", () => {
-    const files = [".github/workflows/ci.yml", ".github/actions/setup/action.yml"];
+    // every workflow and action, so a new file cannot slip in unpinned
+    const files = readdirSync(path.join(ROOT, ".github"), { recursive: true, encoding: "utf8" })
+      .filter((file) => /\.ya?ml$/.test(file))
+      .map((file) => `.github/${file}`);
+    expect(files).toContain(".github/workflows/ci.yml");
     const refs = files.flatMap((file) =>
       [...read(file).matchAll(/uses:\s*(\S+)/g)].map((m) => m[1]),
     );

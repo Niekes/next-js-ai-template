@@ -13,7 +13,8 @@ Non-standard scripts: `pnpm db:generate|migrate|setup|studio`,
 `pnpm verify`, `pnpm arch:diagram`, `pnpm size:scan`. Wrappers: `lint` runs
 `vp check`, `typecheck` runs `tsc --noEmit`.
 
-Finish a code change only after `pnpm verify` passes (the same gate as CI).
+Finish a code change only after `pnpm verify` passes (CI runs the same gate,
+plus `pnpm audit` and zizmor, which need the network).
 Use `pnpm exec vp check --fix` to auto-fix lint and format issues. Never
 silence a finding (no disable comments, no config loosening); fix the code.
 
