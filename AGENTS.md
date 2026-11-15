@@ -75,4 +75,16 @@ and ADRs as they are resolved.
 Vendored in `.agents/skills/` (linked from `.claude/skills/`): `grilling`,
 `grill-with-docs`, `domain-modeling`, `codebase-design`, `tdd`,
 `diagnosing-bugs`, `prototype`, `research`, `code-review`, `fallow`,
-`fallow-review`, `security-audit`.
+`fallow-review`, `security-audit`, `setup-matt-pocock-skills`, `to-spec`,
+`to-tickets`, `implement`. The idea-to-code flow (grill, spec, tickets,
+implement) is in [docs/workflow.md](docs/workflow.md#flow).
+
+## Agent skills
+
+### Issue tracker
+
+GitHub Issues, via `gh`. See `docs/agents/issue-tracker.md`.
+
+### Domain docs
+
+Single-context: root `GLOSSARY.md` plus `docs/adr/`. See `docs/agents/domain.md`.

@@ -1,66 +1,101 @@
 {
-  "version": 1,
+  "version": 2,
   "skills": {
     "code-review": {
       "source": "mattpocock/skills",
       "sourceType": "github",
-      "skillPath": "skills/engineering/code-review/SKILL.md"
+      "skillPath": "skills/engineering/code-review/SKILL.md",
+      "computedHash": ""
     },
     "codebase-design": {
       "source": "mattpocock/skills",
       "sourceType": "github",
-      "skillPath": "skills/engineering/codebase-design/SKILL.md"
+      "skillPath": "skills/engineering/codebase-design/SKILL.md",
+      "computedHash": ""
     },
     "diagnosing-bugs": {
       "source": "mattpocock/skills",
       "sourceType": "github",
-      "skillPath": "skills/engineering/diagnosing-bugs/SKILL.md"
+      "skillPath": "skills/engineering/diagnosing-bugs/SKILL.md",
+      "computedHash": ""
     },
     "domain-modeling": {
       "source": "mattpocock/skills",
       "sourceType": "github",
-      "skillPath": "skills/engineering/domain-modeling/SKILL.md"
+      "skillPath": "skills/engineering/domain-modeling/SKILL.md",
+      "computedHash": ""
     },
     "fallow": {
       "source": "fallow-rs/fallow-skills",
       "sourceType": "github",
-      "skillPath": "fallow/skills/fallow/SKILL.md"
+      "skillPath": "fallow/skills/fallow/SKILL.md",
+      "computedHash": ""
     },
     "fallow-review": {
       "source": "fallow-rs/fallow-skills",
       "sourceType": "github",
-      "skillPath": "fallow/skills/fallow-review/SKILL.md"
+      "skillPath": "fallow/skills/fallow-review/SKILL.md",
+      "computedHash": ""
     },
     "grill-with-docs": {
       "source": "mattpocock/skills",
       "sourceType": "github",
-      "skillPath": "skills/engineering/grill-with-docs/SKILL.md"
+      "skillPath": "skills/engineering/grill-with-docs/SKILL.md",
+      "computedHash": ""
     },
     "grilling": {
       "source": "mattpocock/skills",
       "sourceType": "github",
-      "skillPath": "skills/productivity/grilling/SKILL.md"
+      "skillPath": "skills/productivity/grilling/SKILL.md",
+      "computedHash": ""
+    },
+    "implement": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/implement/SKILL.md",
+      "computedHash": "560465496ad0669329993bfdd0604e5c93b5c2446309a76f486040010b063908"
     },
     "prototype": {
       "source": "mattpocock/skills",
       "sourceType": "github",
-      "skillPath": "skills/engineering/prototype/SKILL.md"
+      "skillPath": "skills/engineering/prototype/SKILL.md",
+      "computedHash": ""
     },
     "research": {
       "source": "mattpocock/skills",
       "sourceType": "github",
-      "skillPath": "skills/engineering/research/SKILL.md"
+      "skillPath": "skills/engineering/research/SKILL.md",
+      "computedHash": ""
     },
     "security-audit": {
       "source": "cloudflare/security-audit-skill",
       "sourceType": "github",
       "skillPath": "skills/security-audit/SKILL.md",
-      "computedHash": "98b97aad2873b3b9a8e064007c25e7827b493ba27fda8bfbdb41dab586767973"
+      "computedHash": "8513eb3b2c39b8d05ef4f47b32ef4d18280b93a5efb91d8df6272f7435034af5"
+    },
+    "setup-matt-pocock-skills": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/setup-matt-pocock-skills/SKILL.md",
+      "computedHash": "9659e7025d4cf1c0a0b40ddff32ed4b8debb87a4b20d7a52ff89c506a638df69"
     },
     "tdd": {
       "source": "mattpocock/skills",
       "sourceType": "github",
-      "skillPath": "skills/engineering/tdd/SKILL.md"
+      "skillPath": "skills/engineering/tdd/SKILL.md",
+      "computedHash": ""
+    },
+    "to-spec": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/to-spec/SKILL.md",
+      "computedHash": "eb934b5eda9523c7853a2741544bd4721ee1bea471f5a04f8397827f67bdbdda"
+    },
+    "to-tickets": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/to-tickets/SKILL.md",
+      "computedHash": "17496514c92954f68eacdf2b1221e2ddb39fa231b83f03c70bc7d4422f704b2d"
     }
   }
 }
