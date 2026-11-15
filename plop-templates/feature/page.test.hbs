@@ -5,9 +5,9 @@ import { describe, expect, it } from "vite-plus/test";
 import Page from "@/app/dashboard/{{kebabCase name}}/page";
 
 describe("{{pascalCase name}}Page", () => {
-  it("renders the page title", () => {
+  it("frames the {{lowerCase name}} panel under its title", () => {
     render(<Page />);
 
-    expect(screen.getByText("{{titleCase name}}")).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "{{titleCase name}}" })).toBeTruthy();
   });
 });

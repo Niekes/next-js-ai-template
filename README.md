@@ -62,8 +62,8 @@ Husky runs the fast part on commit and push.
    changes need a human. Add "GitHub Actions" to the ruleset's bypass list,
    or the CI job that commits the README badges to `main` cannot push.
 5. Keep the notes example as a reference until your first feature exists, then
-   delete it (`src/lib/db/schema/notes.ts`, `src/lib/notes.ts`,
-   `src/lib/hooks/use-notes.ts`, `src/app/api/notes/`, `src/app/dashboard/notes/`)
+   delete it (`src/features/notes/`, `src/lib/db/schema/notes.ts`,
+   `src/app/api/notes/`, `src/app/dashboard/notes/`)
    and run `pnpm db:generate`.
 
 ## Deploy

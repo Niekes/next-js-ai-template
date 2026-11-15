@@ -1,0 +1,13 @@
+// @vitest-environment jsdom
+import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vite-plus/test";
+
+import { {{pascalCase name}}Panel } from "@/features/{{kebabCase name}}/components/{{kebabCase name}}-panel";
+
+describe("{{pascalCase name}}Panel", () => {
+  it("renders a placeholder", () => {
+    render(<{{pascalCase name}}Panel />);
+
+    expect(screen.getByText("Implement the {{titleCase name}} feature here.")).toBeTruthy();
+  });
+});

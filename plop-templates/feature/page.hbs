@@ -1,11 +1,10 @@
 import { AppPage } from "@/components/app-page";
+import { {{pascalCase name}}Panel } from "@/features/{{kebabCase name}}/components/{{kebabCase name}}-panel";
 
-const {{pascalCase name}}Page = () => {
-  return (
-    <AppPage title="{{titleCase name}}">
-      <p className="text-sm text-muted-foreground">Implement the {{titleCase name}} feature here.</p>
-    </AppPage>
-  );
-};
+const {{pascalCase name}}Page = () => (
+  <AppPage title="{{titleCase name}}">
+    <{{pascalCase name}}Panel />
+  </AppPage>
+);
 
 export default {{pascalCase name}}Page;

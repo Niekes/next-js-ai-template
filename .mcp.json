@@ -1,0 +1,32 @@
+{
+  "mcpServers": {
+    "better-auth": {
+      "type": "http",
+      "url": "https://mcp.better-auth.com/mcp"
+    },
+    "bulletproof-react": {
+      "type": "http",
+      "url": "https://gitmcp.io/alan2207/bulletproof-react"
+    },
+    "chrome-devtools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@1.13.0"]
+    },
+    "fallow": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["fallow-mcp"]
+    },
+    "next-devtools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "next-devtools-mcp@0.4.0"]
+    },
+    "shadcn": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["shadcn", "mcp"]
+    }
+  }
+}

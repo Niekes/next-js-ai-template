@@ -11,6 +11,7 @@
 /vitest.config.ts @Niekes
 /.claude/settings.json @Niekes
 /opencode.json @Niekes
+/.mcp.json @Niekes
 /src/lib/architecture/** @Niekes
 /security-accepted.json @Niekes
 /scripts/security-gate.ts @Niekes

@@ -11,12 +11,27 @@
     },
     "next-devtools": {
       "type": "local",
-      "command": ["npx", "-y", "next-devtools-mcp@latest"],
+      "command": ["npx", "-y", "next-devtools-mcp@0.4.0"],
       "enabled": true
     },
     "better-auth": {
       "type": "remote",
       "url": "https://mcp.better-auth.com/mcp",
+      "enabled": true
+    },
+    "bulletproof-react": {
+      "type": "remote",
+      "url": "https://gitmcp.io/alan2207/bulletproof-react",
+      "enabled": true
+    },
+    "chrome-devtools": {
+      "type": "local",
+      "command": ["npx", "-y", "chrome-devtools-mcp@1.13.0"],
+      "enabled": true
+    },
+    "shadcn": {
+      "type": "local",
+      "command": ["npx", "shadcn", "mcp"],
       "enabled": true
     }
   },
@@ -32,6 +47,7 @@
       "vitest.config.ts": "ask",
       ".claude/settings.json": "ask",
       "opencode.json": "ask",
+      ".mcp.json": "ask",
       "src/lib/architecture/**": "ask",
       "security-accepted.json": "ask",
       "scripts/security-gate.ts": "ask",

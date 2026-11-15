@@ -386,7 +386,7 @@ export default defineConfig({
       },
       {
         // Server code cannot use hooks
-        files: ["src/lib/db/**", "src/app/api/**"],
+        files: ["src/lib/db/**", "src/app/api/**", "src/features/*/server/**"],
         rules: {
           "no-restricted-globals": "off",
           "no-restricted-properties": "off",

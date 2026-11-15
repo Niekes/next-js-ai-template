@@ -1,12 +1,17 @@
 @startuml
 component [app]
+component [features]
 component [components]
 component [lib]
 component [const]
 
+[app] --> [features]
 [app] --> [components]
 [app] --> [lib]
 [app] --> [const]
+[features] --> [components]
+[features] --> [lib]
+[features] --> [const]
 [components] --> [lib]
 [components] --> [const]
 [lib] --> [const]

@@ -60,6 +60,7 @@ const GUARDRAIL_FILES = [
   "vitest.config.ts",
   ".claude/settings.json",
   "opencode.json",
+  ".mcp.json",
   "src/lib/architecture/**",
   "security-accepted.json",
   "scripts/security-gate.ts",

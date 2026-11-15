@@ -23,7 +23,7 @@ const plopfile = (plop) => {
   });
 
   plop.setGenerator("feature", {
-    description: "signed-in page under src/app/dashboard",
+    description: "feature folder under src/features with a signed-in page under src/app/dashboard",
     prompts: [
       {
         type: "input",
@@ -41,6 +41,16 @@ const plopfile = (plop) => {
         type: "add",
         path: "src/app/dashboard/{{kebabCase name}}/page.test.tsx",
         templateFile: "plop-templates/feature/page.test.hbs",
+      },
+      {
+        type: "add",
+        path: "src/features/{{kebabCase name}}/components/{{kebabCase name}}-panel.tsx",
+        templateFile: "plop-templates/feature/panel.hbs",
+      },
+      {
+        type: "add",
+        path: "src/features/{{kebabCase name}}/components/{{kebabCase name}}-panel.test.tsx",
+        templateFile: "plop-templates/feature/panel.test.hbs",
       },
     ],
   });
