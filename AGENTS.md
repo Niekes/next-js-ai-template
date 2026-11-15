@@ -19,11 +19,13 @@ silence a finding (no disable comments, no config loosening); fix the code.
 
 ## Layout
 
-App code is under `src/`, split into three zones: **app** (`src/app/`,
-routing, pages and API routes), **shared** (`src/components/`, `src/lib/`,
-`src/const/`), and **root** (`src/proxy.ts`, page protection). Tooling lives
-at the repo root and in `scripts/`. `src/app/api/notes` and
-`src/app/dashboard/notes` are a worked example that crosses every zone.
+App code is under `src/`, in bulletproof-react layers (imports flow
+shared → features → app): **app** (`src/app/`, thin routing, pages and API
+routes), **features** (`src/features/<name>/`, one zone each, never importing
+each other), **shared** (`src/components/`, `src/lib/`, `src/const/`), and
+**root** (`src/proxy.ts`, page protection). Tooling lives at the repo root and
+in `scripts/`. `src/features/notes` with `src/app/api/notes` and
+`src/app/dashboard/notes` is a worked example that crosses every zone.
 
 ## Protected paths
 
@@ -41,7 +43,7 @@ Edit only with human approval: `.fallowrc.json`, `.husky/**`,
 `.github/workflows/**`, `.github/actions/**`, `drizzle.config.ts`,
 `vitest.config.ts` (coverage gate), `security-accepted.json`,
 `scripts/security-gate.ts`, `src/lib/architecture/**`, `.claude/settings.json`,
-`opencode.json`.
+`opencode.json`, `.mcp.json`.
 
 Enforced by `.claude/settings.json` (Claude Code) and `opencode.json`
 (opencode). Change both together; `security-wiring.test.ts` checks that both ask before gate edits.

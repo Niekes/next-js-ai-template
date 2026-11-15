@@ -11,7 +11,7 @@
     "chrome-devtools": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "chrome-devtools-mcp@latest"]
+      "args": ["-y", "chrome-devtools-mcp@1.13.0"]
     },
     "fallow": {
       "type": "stdio",
@@ -21,7 +21,7 @@
     "next-devtools": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "next-devtools-mcp@latest"]
+      "args": ["-y", "next-devtools-mcp@0.4.0"]
     },
     "shadcn": {
       "type": "stdio",

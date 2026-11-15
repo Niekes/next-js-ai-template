@@ -80,9 +80,11 @@ the diagram and sync tests run under `pnpm test`.
 - Feature → `src/features/<name>/` (scaffold with `pnpm gen feature <name>`).
   Only these folders, each optional: `api/` (input contract, client requests
   and query hooks), `components/`, `hooks/`, `server/` (database queries,
-  imported only by route handlers and other `server/` files), `types/`,
-  `utils/`. No `index.ts` barrels; import files directly.
-  `src/lib/architecture/features.test.ts` enforces all three rules
+  imported only by server code: route handlers, Server Components and other
+  `server/` files), `types/`,
+  `utils/`. No `index.ts` barrels; import files directly. A feature's
+  main component is `components/<name>-panel.tsx`, which its page frames.
+  `src/lib/architecture/features.test.ts` enforces all three rules.
 - Page → `src/app/`, thin: it frames feature components (pages under
   `src/app/dashboard/` require a session, see `src/proxy.ts`)
 - API route → `src/app/api/`, thin: every handler starts with an auth check

@@ -4,8 +4,9 @@ import path from "node:path";
 import { describe, expect, it } from "vite-plus/test";
 
 // Claude Code reads .mcp.json, opencode reads opencode.json. Both agents get the same
-// MCP servers, started the same way. The list is pinned here, so adding or dropping
-// a server needs approval (this file is a guardrail).
+// MCP servers, started the same way. The server list is fixed here, so adding or dropping
+// a server needs approval (this file is a guardrail). Versions: npx servers from
+// devDependencies follow the lockfile, the others carry an exact version.
 
 const ROOT = path.resolve(__dirname, "../../..");
 const readJson = (file: string): unknown => JSON.parse(readFileSync(path.join(ROOT, file), "utf8"));
