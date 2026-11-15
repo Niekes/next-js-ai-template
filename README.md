@@ -111,8 +111,6 @@ Husky runs the fast part on commit and push.
    delete it (`src/features/notes/`, `src/lib/db/schema/notes.ts`,
    `src/app/api/notes/`, `src/app/dashboard/notes/`)
    and run `pnpm db:generate`.
-6. Delete `.github/FUNDING.yml` and the sponsor parts of this README, or point
-   them at your own sponsor page.
 
 ## Deploy
 
