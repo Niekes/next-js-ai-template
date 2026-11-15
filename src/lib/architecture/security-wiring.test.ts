@@ -49,7 +49,15 @@ const LINT_IGNORES = [
   "src/lib/db/migrations/**",
 ];
 
+// The "Edit only with human approval" list in AGENTS.md
 const GUARDRAIL_FILES = [
+  ".fallowrc.json",
+  ".husky/**",
+  ".github/workflows/**",
+  ".github/actions/**",
+  ".github/CODEOWNERS",
+  "drizzle.config.ts",
+  "vitest.config.ts",
   ".claude/settings.json",
   "opencode.json",
   ".mcp.json",
@@ -82,6 +90,16 @@ describe("security gate wiring", () => {
       expect(claude.permissions.ask).toContain(`Edit(/${file})`);
       expect(opencode.permission.edit[file]).toBe("ask");
     }
+  });
+
+  // Agent rules miss shell writes, so pull-request review is the backstop
+  it("gives every guardrail file a code owner", () => {
+    const owned = read(".github/CODEOWNERS")
+      .split("\n")
+      .filter((line) => line.startsWith("/"))
+      .map((line) => line.split(/\s+/)[0]);
+
+    expect(owned).toEqual(GUARDRAIL_FILES.map((file) => `/${file}`));
   });
 
   it("bans disabled TLS checks everywhere, with no file exempt", async () => {

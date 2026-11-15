@@ -23,11 +23,14 @@ const SignInPage = () => {
   const router = useRouter();
   const [mode, setMode] = useState<Mode>("sign-in");
   const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
 
   const submit = async (form: FormData) => {
     setError(null);
+    setPending(true);
     const result = await submitCredentials(mode, form);
     if (result.error) {
+      setPending(false);
       setError(result.error.message ?? "Sign-in failed");
       return;
     }
@@ -36,7 +39,14 @@ const SignInPage = () => {
 
   return (
     <AppPage title={mode === "sign-in" ? "Sign in" : "Create account"}>
-      <form action={submit} className="grid max-w-sm gap-4">
+      {/* onSubmit, not action: React resets an action form even when sign-in fails */}
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          void submit(new FormData(event.currentTarget));
+        }}
+        className="grid max-w-sm gap-4"
+      >
         {mode === "sign-up" && <AppInput label="Name" name="name" required autoComplete="name" />}
         <AppInput label="Email" name="email" type="email" required autoComplete="email" />
         <AppInput label="Password" name="password" type="password" required minLength={8} />
@@ -45,7 +55,9 @@ const SignInPage = () => {
             {error}
           </p>
         )}
-        <AppButton type="submit">{mode === "sign-in" ? "Sign in" : "Create account"}</AppButton>
+        <AppButton type="submit" disabled={pending}>
+          {mode === "sign-in" ? "Sign in" : "Create account"}
+        </AppButton>
         <AppButton
           type="button"
           variant="ghost"

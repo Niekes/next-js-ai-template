@@ -23,6 +23,7 @@
       "Edit(/.husky/**)",
       "Edit(/.github/workflows/**)",
       "Edit(/.github/actions/**)",
+      "Edit(/.github/CODEOWNERS)",
       "Edit(/drizzle.config.ts)",
       "Edit(/vitest.config.ts)",
       "Edit(/.claude/settings.json)",

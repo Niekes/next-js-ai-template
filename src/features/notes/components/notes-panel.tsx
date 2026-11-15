@@ -11,9 +11,19 @@ export const NotesPanel = () => {
 
   return (
     <>
+      {/* onSubmit, not action: React resets an action form before the save is known to succeed */}
       <form
-        action={(form) => {
-          createNote.mutate({ text: formText(form, "text") });
+        onSubmit={(event) => {
+          event.preventDefault();
+          const form = event.currentTarget;
+          createNote.mutate(
+            { text: formText(new FormData(form), "text") },
+            {
+              onSuccess: () => {
+                form.reset();
+              },
+            },
+          );
         }}
         className="mb-6 flex items-end gap-2"
       >
@@ -24,6 +34,7 @@ export const NotesPanel = () => {
           Add
         </AppButton>
       </form>
+      {createNote.isError && <p role="alert">Could not save the note.</p>}
       {notes.isError && <p role="alert">Could not load notes.</p>}
       <ul className="grid gap-2">
         {notes.data?.map((note) => (

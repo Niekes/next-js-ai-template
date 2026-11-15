@@ -1,4 +1,3 @@
-import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 
 import { auth } from "@/lib/auth";
@@ -8,9 +7,8 @@ import { users } from "@/lib/db/schema";
 /** The signed-in user, or null. Every API route handler starts with this (see route-auth.test.ts). */
 export const getUser = async () => {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) return null;
-  const [user] = await db.select().from(users).where(eq(users.id, session.user.id)).limit(1);
-  return user ?? null;
+  // session.user is read fresh from the DB (role, ban) only while cookieCache is off in auth.ts
+  return session?.user ?? null;
 };
 
 export const listUsers = () =>

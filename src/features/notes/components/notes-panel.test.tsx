@@ -2,21 +2,35 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
-const { mutate, notes } = vi.hoisted(() => ({
-  mutate: vi.fn<(input: { text: string }) => void>(),
+type MutateOptions = { onSuccess?: () => void };
+
+const { create, notes } = vi.hoisted(() => ({
+  create: {
+    mutate: vi.fn<(input: { text: string }, options?: MutateOptions) => void>(),
+    isPending: false,
+    isError: false,
+  },
   notes: { data: undefined as { id: number; text: string }[] | undefined, isError: false },
 }));
 vi.mock("@/features/notes/api/use-notes", () => ({
   useNotes: () => notes,
-  useCreateNote: () => ({ mutate, isPending: false }),
+  useCreateNote: () => create,
 }));
 
 const { NotesPanel } = await import("@/features/notes/components/notes-panel");
 
+const noteField = () => screen.getByLabelText<HTMLInputElement>("New note");
+
+const addNote = (text: string) => {
+  fireEvent.change(noteField(), { target: { value: text } });
+  fireEvent.click(screen.getByRole("button", { name: "Add" }));
+};
+
 beforeEach(() => {
-  vi.clearAllMocks();
+  create.mutate.mockReset();
   notes.data = [{ id: 1, text: "Buy milk" }];
   notes.isError = false;
+  create.isError = false;
 });
 
 describe("NotesPanel", () => {
@@ -26,13 +40,24 @@ describe("NotesPanel", () => {
     expect(screen.getByRole("listitem").textContent).toBe("Buy milk");
   });
 
-  it("creates a note from the form", () => {
+  it("creates a note and clears the field once it is saved", () => {
+    create.mutate.mockImplementation((_input, options) => options?.onSuccess?.());
     render(<NotesPanel />);
 
-    fireEvent.change(screen.getByLabelText("New note"), { target: { value: "Call Ada" } });
-    fireEvent.click(screen.getByRole("button", { name: "Add" }));
+    addNote("Call Ada");
 
-    expect(mutate).toHaveBeenCalledWith({ text: "Call Ada" });
+    expect(create.mutate).toHaveBeenCalledWith({ text: "Call Ada" }, expect.anything());
+    expect(noteField().value).toBe("");
+  });
+
+  it("keeps the text and says so when the note cannot be saved", () => {
+    create.isError = true;
+    render(<NotesPanel />);
+
+    addNote("Call Ada");
+
+    expect(noteField().value).toBe("Call Ada");
+    expect(screen.getByRole("alert").textContent).toBe("Could not save the note.");
   });
 
   it("says so when the notes cannot load", () => {

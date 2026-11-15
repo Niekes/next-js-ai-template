@@ -1,0 +1,17 @@
+# Gate files: a pull request that touches one needs a human approval.
+# Agent permission rules only cover edit tools, so review is the last backstop (ADR 0001).
+# Same list as "Edit only with human approval" in AGENTS.md; security-wiring.test.ts checks it.
+# Replace @Niekes with your own GitHub user or team after creating a repo from this template.
+/.fallowrc.json @Niekes
+/.husky/** @Niekes
+/.github/workflows/** @Niekes
+/.github/actions/** @Niekes
+/.github/CODEOWNERS @Niekes
+/drizzle.config.ts @Niekes
+/vitest.config.ts @Niekes
+/.claude/settings.json @Niekes
+/opencode.json @Niekes
+/.mcp.json @Niekes
+/src/lib/architecture/** @Niekes
+/security-accepted.json @Niekes
+/scripts/security-gate.ts @Niekes

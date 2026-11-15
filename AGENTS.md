@@ -40,13 +40,18 @@ owning tool instead (`pnpm db:generate`, `pnpm install`, `pnpm dlx shadcn add`, 
 - `.env` (no reads either), plus build output and caches
 
 Edit only with human approval: `.fallowrc.json`, `.husky/**`,
-`.github/workflows/**`, `.github/actions/**`, `drizzle.config.ts`,
+`.github/workflows/**`, `.github/actions/**`, `.github/CODEOWNERS`, `drizzle.config.ts`,
 `vitest.config.ts` (coverage gate), `security-accepted.json`,
 `scripts/security-gate.ts`, `src/lib/architecture/**`, `.claude/settings.json`,
 `opencode.json`, `.mcp.json`.
 
-Enforced by `.claude/settings.json` (Claude Code) and `opencode.json`
-(opencode). Change both together; `security-wiring.test.ts` checks that both ask before gate edits.
+`.claude/settings.json` (Claude Code) and `opencode.json` (opencode) apply
+these rules to the file-editing tools. Change both together;
+`security-wiring.test.ts` checks that both ask before gate edits. They do not
+cover shell commands (`sed -i`, `cat >`, scripts): editing a protected file
+that way breaks the same rule. The backstops are the gate tests and CI, which
+fail when a gate is weakened, and review: `.github/CODEOWNERS` names a human
+owner for every file in this list (`security-wiring.test.ts` checks that too).
 
 ## Docs
 
