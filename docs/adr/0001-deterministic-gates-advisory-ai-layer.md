@@ -22,7 +22,7 @@ security gate, husky hooks and CI. All of them run in one command,
 The AI layer — `AGENTS.md`, `docs/`, vendored skills, MCP servers — is
 advisory: it explains the rules and points to the tools, but it does not
 replace them. The one exception is the agent permission config
-(`.claude/settings.json`, `opencode.json`), which denies edits to generated
+(`.claude/settings.json`), which denies edits to generated
 files and asks a human before an agent edits a gate (see the amendment below).
 
 The gates start at full strictness on day one (100 % coverage, no warnings,
@@ -49,3 +49,12 @@ for a weakened gate are the gate tests and CI, and pull-request review:
 human-approval list in `AGENTS.md`, and `security-wiring.test.ts` fails when
 the two lists drift apart. Review only blocks a merge once `main` requires
 code-owner review (see the README).
+
+## Amendment (2026-11-15, shell guard)
+
+A Claude Code `PreToolUse` hook (`scripts/agent-guard.ts`) now blocks shell
+commands that write to a protected path or skip the git hooks. It matches the
+command text, so it turns accidental bypasses into blocks but does not stop a
+determined one (`node -e`, a generated script). The backstops above still
+stand. opencode support was dropped, so `.claude/settings.json` is the only
+agent permission config.

@@ -37,7 +37,8 @@ yourself admin, set your `role` to `admin` in `pnpm db:studio`.
 | Security           | `fallow security` + `security-accepted.json`                | a new risky sink without a human-approved reason                           |
 | Auth on API routes | `route-auth.test.ts`                                        | a handler without `withAdmin*` or an opening `getUser()` check             |
 | Gate integrity     | `coverage-gate`, `security-wiring`, `lint-directives` tests | a threshold, ignore list or hook is weakened, or a disable comment appears |
-| Agent permissions  | `.claude/settings.json`, `opencode.json`                    | an agent's edit tool touches generated files (denied) or gate files (asks) |
+| Agent permissions  | `.claude/settings.json` + `scripts/agent-guard.ts` hook     | an agent's edit tool or shell command touches a protected or gate file     |
+| CI & supply chain  | SHA-pinned actions, zizmor, `pnpm audit`, pnpm trust policy | an unpinned action, a workflow flaw, a high advisory, a trust downgrade    |
 | Gate ownership     | `.github/CODEOWNERS` (pinned by `security-wiring` test)     | a pull request changes a gate file without a human approval                |
 
 All of it runs in one command, `pnpm verify`, which is also what CI runs.

@@ -27,11 +27,25 @@
       "Edit(/drizzle.config.ts)",
       "Edit(/vitest.config.ts)",
       "Edit(/.claude/settings.json)",
-      "Edit(/opencode.json)",
       "Edit(/.mcp.json)",
       "Edit(/src/lib/architecture/**)",
       "Edit(/security-accepted.json)",
-      "Edit(/scripts/security-gate.ts)"
+      "Edit(/scripts/security-gate.ts)",
+      "Edit(/scripts/agent-guard.ts)",
+      "Edit(/pnpm-workspace.yaml)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node --no-warnings \"$CLAUDE_PROJECT_DIR/scripts/agent-guard.ts\""
+          }
+        ]
+      }
     ]
   }
 }

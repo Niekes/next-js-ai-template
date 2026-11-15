@@ -10,8 +10,9 @@
 /drizzle.config.ts @Niekes
 /vitest.config.ts @Niekes
 /.claude/settings.json @Niekes
-/opencode.json @Niekes
 /.mcp.json @Niekes
 /src/lib/architecture/** @Niekes
 /security-accepted.json @Niekes
 /scripts/security-gate.ts @Niekes
+/scripts/agent-guard.ts @Niekes
+/pnpm-workspace.yaml @Niekes

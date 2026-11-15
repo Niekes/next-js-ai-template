@@ -1,3 +1,7 @@
+# Supply chain: skip versions younger than a day (strict once set explicitly), and fail when a
+# package loses trust evidence it had, e.g. trusted publishing. security-wiring.test.ts pins both.
+minimumReleaseAge: 1440
+trustPolicy: no-downgrade
 allowBuilds:
   esbuild: true
   sharp: true

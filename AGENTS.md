@@ -42,14 +42,16 @@ owning tool instead (`pnpm db:generate`, `pnpm install`, `pnpm dlx shadcn add`, 
 Edit only with human approval: `.fallowrc.json`, `.husky/**`,
 `.github/workflows/**`, `.github/actions/**`, `.github/CODEOWNERS`,
 `drizzle.config.ts`, `vitest.config.ts` (coverage gate), `security-accepted.json`,
-`scripts/security-gate.ts`, `src/lib/architecture/**`, `.claude/settings.json`,
-`opencode.json`, `.mcp.json`.
+`scripts/security-gate.ts`, `scripts/agent-guard.ts`, `src/lib/architecture/**`,
+`.claude/settings.json`, `.mcp.json`, `pnpm-workspace.yaml` (supply-chain settings).
 
-`.claude/settings.json` (Claude Code) and `opencode.json` (opencode) apply
-these rules to the file-editing tools. Change both together;
-`security-wiring.test.ts` checks that both ask before gate edits. They do not
-cover shell commands (`sed -i`, `cat >`, scripts): editing a protected file
-that way breaks the same rule. The backstops are the gate tests and CI, which
+`.claude/settings.json` applies these rules to the file-editing tools;
+`security-wiring.test.ts` checks that it asks before gate edits. Its
+`PreToolUse` hook (`scripts/agent-guard.ts`) blocks shell commands that write
+to a protected path (`sed -i`, `>`, `mv`, `rm` …) or skip the git hooks
+(`--no-verify`, `HUSKY=0`). It matches the command text, so a script or
+`node -e` still gets past it: editing a protected file that way breaks the
+same rule. The backstops are the gate tests and CI, which
 fail when a gate is weakened, and review: `.github/CODEOWNERS` names a human
 owner for every file in this list (`security-wiring.test.ts` checks that too).
 
