@@ -21,26 +21,18 @@ beforeEach(() => {
 });
 
 describe("getUser", () => {
-  it("returns null without a session and skips the database", async () => {
+  it("returns null without a session", async () => {
     mockGetSession.mockResolvedValue(null);
 
     expect(await getUser()).toBeNull();
     expect(mocks.calls).toEqual([]);
   });
 
-  it("returns the session user's row", async () => {
-    mockGetSession.mockResolvedValue({ user: { id: "u1" } });
-    mocks.results.push([{ id: "u1", role: "member" }]);
+  it("returns the session's user, role included, without a second query", async () => {
+    mockGetSession.mockResolvedValue({ user: { id: "u1", role: "member" } });
 
     expect(await getUser()).toEqual({ id: "u1", role: "member" });
-    expect(methods()).toEqual(["select", "from", "where", "limit"]);
-  });
-
-  it("returns null when the session user has no row", async () => {
-    mockGetSession.mockResolvedValue({ user: { id: "gone" } });
-    mocks.results.push([]);
-
-    expect(await getUser()).toBeNull();
+    expect(mocks.calls).toEqual([]);
   });
 });
 

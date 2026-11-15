@@ -1,8 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 
-// keep a developer's .env out of the test, so every machine and CI see the same input
-vi.mock("dotenv", () => ({ config: vi.fn<() => void>() }));
-
 const VALID = {
   POSTGRES_URL: "postgres://app@localhost:5432/app",
   BETTER_AUTH_SECRET: "x".repeat(32),

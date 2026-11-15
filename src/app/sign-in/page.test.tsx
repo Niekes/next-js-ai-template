@@ -81,3 +81,29 @@ describe("SignInPage", () => {
     expect(screen.queryByLabelText("Name")).toBeNull();
   });
 });
+
+describe("SignInPage while a request runs", () => {
+  it("keeps the submit button disabled until it navigates, so a double click sends one request", async () => {
+    let finish = (_value: { error: null }) => {};
+    signUp.mockReturnValue(
+      new Promise((resolve) => {
+        finish = resolve;
+      }),
+    );
+    render(<SignInPage />);
+    fireEvent.click(screen.getByRole("button", { name: "No account yet? Create one" }));
+    fill("Name", "Ada");
+
+    submit("Create account");
+    fireEvent.click(screen.getByRole("button", { name: "Create account" }));
+    finish({ error: null });
+
+    await waitFor(() => {
+      expect(push).toHaveBeenCalled();
+    });
+    expect(signUp).toHaveBeenCalledTimes(1);
+    expect(screen.getByRole<HTMLButtonElement>("button", { name: "Create account" }).disabled).toBe(
+      true,
+    );
+  });
+});

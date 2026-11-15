@@ -1,7 +1,4 @@
-import { config } from "dotenv";
 import { z } from "zod";
-
-config({ quiet: true });
 
 const envSchema = z.object({
   POSTGRES_URL: z.url(),

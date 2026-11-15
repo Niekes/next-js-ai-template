@@ -23,11 +23,14 @@ const SignInPage = () => {
   const router = useRouter();
   const [mode, setMode] = useState<Mode>("sign-in");
   const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
 
   const submit = async (form: FormData) => {
     setError(null);
+    setPending(true);
     const result = await submitCredentials(mode, form);
     if (result.error) {
+      setPending(false);
       setError(result.error.message ?? "Sign-in failed");
       return;
     }
@@ -52,7 +55,9 @@ const SignInPage = () => {
             {error}
           </p>
         )}
-        <AppButton type="submit">{mode === "sign-in" ? "Sign in" : "Create account"}</AppButton>
+        <AppButton type="submit" disabled={pending}>
+          {mode === "sign-in" ? "Sign in" : "Create account"}
+        </AppButton>
         <AppButton
           type="button"
           variant="ghost"
