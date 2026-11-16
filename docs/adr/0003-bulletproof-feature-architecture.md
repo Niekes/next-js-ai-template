@@ -28,8 +28,8 @@ Adopt the bulletproof-react layering, enforced by tools:
   (drizzle-kit generates migrations from one schema) and the `queryKeys` store
   in `src/lib/query-keys.ts` (one place lists every cache key).
 
-The MCP servers both agents use are now fixed in `.mcp.json` and
-`opencode.json`, and `mcp-wiring.test.ts` fails if the two lists differ.
+The MCP servers the agent uses are now fixed in `.mcp.json`, and
+`mcp-wiring.test.ts` fails if the list changes.
 Servers fetched by `npx` carry an exact version; `fallow-mcp` and `shadcn`
 come from devDependencies and follow the lockfile. This gates the
 configuration only: whether an agent calls a server stays advisory,

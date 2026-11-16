@@ -7,7 +7,7 @@
 | `pnpm lint`         | Every change | Oxfmt + Oxlint + typecheck (`vp check`)                                                                                                                     |
 | `pnpm typecheck`    | Every change | `tsc --noEmit` (strict + `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noImplicitOverride`, `noImplicitReturns`, `noFallthroughCasesInSwitch`) |
 | `pnpm test`         | Every change | Vitest suite (`test:watch` for watch mode)                                                                                                                  |
-| `pnpm verify`       | Before a PR  | The full gate, identical to CI                                                                                                                              |
+| `pnpm verify`       | Before a PR  | The full gate; CI also runs `pnpm audit` and zizmor (network-bound)                                                                                         |
 | `pnpm fallow:check` | Every commit | Fallow dead-code + duplication gate (dead code, boundaries, duplicate exports, circular deps, clones)                                                       |
 | `pnpm fallow`       | Before push  | Changed-file audit + health-score ratchet (needs `pnpm test --coverage` first)                                                                              |
 | `pnpm fallow:full`  | Occasional   | Full scan: dead-code + health (with coverage) + dupes                                                                                                       |
@@ -24,7 +24,8 @@ pnpm's. `pnpm lint` fails on warnings as well: every rule is an error and
 `lint.options.denyWarnings` is set in `vite.config.ts`.
 
 CI (`.github/workflows/ci.yml`) runs the same scripts on every push and pull
-request, with placeholder env values for the build. On pushes to `main` it
+request, with placeholder env values for the build, plus `pnpm audit` and
+zizmor, which need the network. On pushes to `main` it
 regenerates the README badges (`.github/badges/`) and commits them with
 `[skip ci]`.
 
@@ -59,8 +60,8 @@ function is a `const` arrow. `local/no-restricted-syntax` additionally bans
 **Restricted syntax**: Oxlint has no `no-restricted-syntax`, so
 `scripts/lint-plugin.mjs` provides `local/no-restricted-syntax` with ESLint's
 options (esquery selectors). `RESTRICTED_SYNTAX` there bans enum
-declarations, the two function forms above, `navigator.clipboard` and
-`rejectUnauthorized: false`. Add a ban as one `{ selector, message }` entry.
+declarations, the two function forms above, `navigator.clipboard`,
+`rejectUnauthorized: false` and the `"use server"` directive. Add a ban as one `{ selector, message }` entry.
 
 **Tailwind classes**: `tailwindcss/no-custom-classname` rejects any class
 Tailwind does not know. Theme colours are the shadcn tokens in
@@ -129,12 +130,28 @@ Three tools, one kind of rule each ([ADR 0002](adr/0002-security-gates-without-s
   category, with `security-accepted.json`. A new candidate fails; so does a
   stale entry. Fix the code. Accepting a risk means a human adds or raises an
   entry with a reason.
-- **Syntax bans**: `local/no-restricted-syntax`, such as `rejectUnauthorized: false`.
+- **Syntax bans**: `local/no-restricted-syntax`, such as `rejectUnauthorized: false`
+  and `"use server"` (a Server Action is a public POST endpoint that
+  `route-auth.test.ts` cannot see; write an API route instead).
 - **Project invariants**: architecture tests. `route-auth.test.ts` fails on any
   API route handler that is neither wrapped in `withAdmin*` nor opens with
   `const user = await getUser(); if (!user) return ...`.
-  `security-wiring.test.ts` pins the gate wiring, the approval prompts and the
-  lint ignore list.
+  `security-wiring.test.ts` pins the gate wiring, the approval prompts, the
+  lint ignore list, the agent shell hook, the action SHA pins and read-only
+  CI token, the pnpm supply-chain settings and Dependabot.
+
+Around the code:
+
+- **Supply chain**: `pnpm-workspace.yaml` sets `minimumReleaseAge` (strict)
+  and `trustPolicy: no-downgrade`, so `pnpm install` rejects too-new versions
+  and packages that lost publisher trust. Dependabot (`.github/dependabot.yml`)
+  opens weekly updates after a 7-day cooldown.
+- **CI only** (network-bound, so not in `verify`): `pnpm audit --prod
+  --audit-level high` and zizmor on the workflows. Every action is pinned to a
+  commit SHA (`$/` for local ones).
+- **Agent shell guard**: a Claude Code `PreToolUse` hook
+  (`scripts/agent-guard.ts`) blocks Bash commands that write to a protected
+  path or skip the git hooks. Best-effort: it reads the command text.
 
 ## Suppressions
 

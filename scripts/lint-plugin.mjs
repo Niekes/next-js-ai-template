@@ -14,8 +14,16 @@ export const TLS_BAN = {
     "Keep TLS certificate checks on; an exception is a file override in vite.config.ts, pinned by src/lib/architecture/security-wiring.test.ts.",
 };
 
+// A Server Action is a public POST endpoint that route-auth.test.ts does not see
+const SERVER_ACTION_BAN = {
+  selector: "ExpressionStatement[directive='use server']",
+  message:
+    "Server Actions are public POST endpoints outside route-auth.test.ts; add an API route with withAdmin* or getUser() instead.",
+};
+
 export const RESTRICTED_SYNTAX = [
   TLS_BAN,
+  SERVER_ACTION_BAN,
   {
     selector: "TSEnumDeclaration",
     message: "Use a union of string literals or an `as const` object instead of an enum.",
