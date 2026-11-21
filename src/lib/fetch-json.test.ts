@@ -26,6 +26,12 @@ describe("fetchJson", () => {
     await expect(fetchJson("/api/x")).rejects.toThrow("Unauthorized");
   });
 
+  it("keeps the HTTP status on the error", async () => {
+    respond('{"error":"Unauthorized"}', 401);
+
+    await expect(fetchJson("/api/x")).rejects.toMatchObject({ status: 401 });
+  });
+
   it.each(['{"error":["bad"]}', "not json"])("throws a generic message for %j", async (body) => {
     respond(body, 500);
 

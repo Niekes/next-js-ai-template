@@ -1,5 +1,6 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -21,6 +22,7 @@ const submitCredentials = (mode: Mode, form: FormData) => {
 
 const SignInPage = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [mode, setMode] = useState<Mode>("sign-in");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
@@ -37,6 +39,8 @@ const SignInPage = () => {
       setError(result.error.message ?? "Sign-in failed");
       return;
     }
+    // cache keys are not per user; drop what an expired session left behind
+    queryClient.clear();
     router.push(returnPath(window.location.search));
   };
 
