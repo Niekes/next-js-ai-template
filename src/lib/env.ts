@@ -10,6 +10,11 @@ type Env = z.infer<typeof envSchema>;
 
 const parsed = envSchema.safeParse(process.env);
 
+// Without this, a missing .env surfaces later as a confusing DB or auth error
+if (!parsed.success && process.env.NODE_ENV === "development") {
+  console.warn(`Invalid environment, check .env:\n${z.prettifyError(parsed.error)}`);
+}
+
 // shortcut: `next build` and tests run without a real .env, so an invalid env falls back to the raw
 // values instead of throwing; throw here once builds get real env values
 export const env: Env = parsed.success ? parsed.data : (process.env as unknown as Env);
