@@ -149,6 +149,11 @@ Around the code:
 - **CI only** (network-bound, so not in `verify`): `pnpm audit --prod
   --audit-level high` and zizmor on the workflows. Every action is pinned to a
   commit SHA (`$/` for local ones).
+- **Vendored skills**: pinned to a commit in `skills-lock.json`. One
+  exception: `modern-web-guidance` calls `npx modern-web-guidance@latest` at
+  run time, outside `minimumReleaseAge` and the lockfile. Accepted because it
+  only returns advisory guides to the agent; every gate stays deterministic
+  ([ADR 0001](adr/0001-deterministic-gates-advisory-ai-layer.md)).
 - **Agent shell guard**: a Claude Code `PreToolUse` hook
   (`scripts/agent-guard.ts`) blocks Bash commands that write to a protected
   path or skip the git hooks. Best-effort: it reads the command text.

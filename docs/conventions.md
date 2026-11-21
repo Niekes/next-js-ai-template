@@ -36,3 +36,6 @@
 - **Pointer cursor**: set once in `src/app/globals.css` for real buttons. Make
   clickable things real `<a>`/`<button>`; lint bans `onClick` on
   non-interactive elements.
+- **Known shortcuts**: a shortcut with a known limit gets a one-line
+  `// shortcut: <the limit>, <when to upgrade>` comment. `/ponytail-debt`
+  lists them all.

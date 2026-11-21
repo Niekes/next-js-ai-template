@@ -41,6 +41,7 @@
 <p align="center">
   <a href="#quick-start">Quick start</a> ·
   <a href="#what-keeps-the-code-in-shape">Guardrails</a> ·
+  <a href="#recurring-maintenance">Maintenance</a> ·
   <a href="#for-ai-agents">For AI agents</a> ·
   <a href="#make-it-yours">Make it yours</a> ·
   <a href="#deploy">Deploy</a> ·
@@ -91,12 +92,28 @@ All of it runs in one command, `pnpm verify`, which is also what CI runs
 (CI adds the network-bound `pnpm audit` and zizmor).
 Husky runs the fast part on commit and push.
 
+## Recurring maintenance
+
+Some checks are too broad or too slow for every commit. Dependabot runs on
+its own; the rest are skills or scripts a human starts on a fixed rhythm.
+
+| What                                                              | Triggered by | Rhythm                       |
+| ----------------------------------------------------------------- | ------------ | ---------------------------- |
+| Dependabot (npm, GitHub Actions, Docker, Compose)                 | automatic    | weekly, 7-day cooldown       |
+| `/security-audit` — full security review                          | a human      | monthly and before a release |
+| `/ponytail-audit` — bugs, load, untested risk, what to delete     | a human      | monthly                      |
+| `/ponytail-debt` — ledger of every `shortcut:` comment            | a human      | monthly                      |
+| `pnpm fallow:full` — dead code, clones and health across the repo | a human      | monthly                      |
+
+To run the human-triggered ones unattended, schedule them as Claude Code
+routines with `/schedule`.
+
 ## For AI agents
 
 - [AGENTS.md](AGENTS.md) (also loaded as `CLAUDE.md`) — commands, layout, protected paths
 - [docs/](docs/) — architecture, conventions, database, quality gates, workflow
 - [GLOSSARY.md](GLOSSARY.md) and [docs/adr/](docs/adr/) — domain language and decisions
-- `.agents/skills/` — vendored skills (grilling, spec, tickets, implement, domain modeling, TDD, review, Fallow, security audit); the flow is in [docs/workflow.md](docs/workflow.md#flow)
+- `.agents/skills/` — vendored skills (grilling, spec, tickets, implement, domain modeling, TDD, review, Fallow, security audit, ponytail, Chrome's [Modern Web Guidance](https://developer.chrome.com/docs/modern-web-guidance/get-started)); the flow is in [docs/workflow.md](docs/workflow.md#flow)
 - `pnpm gen component <name>` / `pnpm gen feature <name>` — scaffold convention-correct code with a test
 
 ## Make it yours

@@ -18,12 +18,14 @@ Hooks run the fast part locally: pre-commit runs `vp staged`, typecheck and
 ## Setup
 
 The idea-to-code flow uses [Matt Pocock's skills](https://github.com/mattpocock/skills),
-vendored in `.agents/skills/`, linked from `.claude/skills/` and pinned in
+plus [ponytail](https://github.com/DietrichGebert/ponytail) and Chrome's
+[Modern Web Guidance](https://github.com/GoogleChrome/modern-web-guidance),
+all vendored in `.agents/skills/`, linked from `.claude/skills/` and pinned in
 `skills-lock.json`. A fresh clone already has them. To add or update one,
 use the owning CLI (never edit `.agents/**` by hand):
 
 ```bash
-npx skills@latest add mattpocock/skills -s <skill> -a claude-code -a opencode -y
+npx skills@latest add <owner/repo> -s <skill> -a codex -a claude-code -y
 npx skills@latest update -p
 ```
 
@@ -59,8 +61,17 @@ gh label create ready-for-agent --description "Ready for an agent to implement"
 
 Side skills for when the main flow is not the right fit: `/grilling`
 (stress-test a plan without touching docs), `/prototype` (throwaway answer
-to a design question), `/research`, `/diagnosing-bugs`, `/codebase-design`,
-`/fallow-review` (graph-grounded review) and `/security-audit`.
+to a design question), `/research`, `/diagnosing-bugs`, `/codebase-design`
+and `/security-audit`.
+
+Three review skills, three angles: `/code-review` checks the change against
+the repo's standards and the ticket, `/fallow-review` ranks it by blast
+radius on the import graph, and `/ponytail-review` asks whether it is
+correct under load, tested where risky, and whether every line is needed.
+
+Recurring audits (`/security-audit`, `/ponytail-audit`, `/ponytail-debt`,
+`pnpm fallow:full`) and their rhythm are listed in the
+[README](../README.md#recurring-maintenance).
 
 ## Commits
 
