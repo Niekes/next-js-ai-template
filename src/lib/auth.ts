@@ -4,7 +4,7 @@ import { nextCookies } from "better-auth/next-js";
 import { admin } from "better-auth/plugins";
 
 import { db } from "@/lib/db/drizzle";
-import { accounts, sessions, users, verifications } from "@/lib/db/schema";
+import { accounts, rateLimits, sessions, users, verifications } from "@/lib/db/schema";
 import { env } from "@/lib/env";
 
 export const auth = betterAuth({
@@ -12,8 +12,16 @@ export const auth = betterAuth({
   secret: env.BETTER_AUTH_SECRET,
   database: drizzleAdapter(db, {
     provider: "pg",
-    schema: { user: users, session: sessions, account: accounts, verification: verifications },
+    schema: {
+      user: users,
+      session: sessions,
+      account: accounts,
+      verification: verifications,
+      rateLimit: rateLimits,
+    },
   }),
+  // In memory, each replica would count separately; production only (Better Auth default)
+  rateLimit: { storage: "database" },
   emailAndPassword: { enabled: true },
   plugins: [admin({ defaultRole: "member" }), nextCookies()],
   // Rate limits key on the client IP from X-Forwarded-For. A header holding a chain of IPs

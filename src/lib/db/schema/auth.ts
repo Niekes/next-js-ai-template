@@ -1,4 +1,4 @@
-import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { bigint, boolean, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
 // Columns follow the Better Auth core schema plus its admin plugin
 const timestamps = {
@@ -58,6 +58,14 @@ export const verifications = pgTable("verification", {
   value: text("value").notNull(),
   expiresAt: timestamp("expires_at").notNull(),
   ...timestamps,
+});
+
+// Shared across processes so every replica counts against the same limit
+export const rateLimits = pgTable("rate_limit", {
+  id: text("id").primaryKey(),
+  key: text("key").notNull().unique(),
+  count: integer("count").notNull(),
+  lastRequest: bigint("last_request", { mode: "number" }).notNull(),
 });
 
 export type User = typeof users.$inferSelect;

@@ -5,7 +5,7 @@ what is already wired (`pnpm verify`, `.github/workflows/ci.yml`, `.husky/*`,
 `src/lib/architecture/*.test.ts`, `.claude/settings.json`, `opencode.json`,
 `scripts/security-gate.ts`). Every claim about a tool cites a primary source.
 
-Status: items 1–5 are implemented. opencode support was dropped afterwards,
+Status: items 1–5 and 9 are implemented. opencode support was dropped afterwards,
 so the `opencode.json` and opencode-plugin mentions below are historical.
 
 ## Summary

@@ -18,6 +18,10 @@ describe("auth", () => {
     expect(auth.options.plugins.map((plugin) => plugin.id)).toEqual(["admin", "next-cookies"]);
   });
 
+  it("keeps rate-limit counters in the database so all replicas share them", () => {
+    expect(auth.options.rateLimit).toEqual({ storage: "database" });
+  });
+
   it("reads the rate-limit client IP through the proxies named in TRUSTED_PROXIES", () => {
     expect(auth.options.advanced.ipAddress.trustedProxies).toEqual([
       "203.0.113.0/24",
