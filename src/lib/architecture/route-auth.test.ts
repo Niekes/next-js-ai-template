@@ -4,14 +4,18 @@ import path from "node:path";
 import ts from "typescript";
 import { describe, expect, it } from "vite-plus/test";
 
-// Every API route handler checks auth before it does anything else. A handler
-// passes when it is wrapped in a withAdmin* helper from @/lib/auth/middleware, or
-// when its body opens with `const user = await getUser(); if (!user) return ...`
-// with getUser from @/lib/db/queries. Anything else fails here, so a new route
-// without an auth check cannot land unnoticed.
+// Every route handler in src/app (Next.js serves route.ts from any folder) checks auth
+// before it does anything else. A handler passes when it is wrapped in a withAdmin*
+// helper from @/lib/auth/middleware, or when its body opens with
+// `const user = await getUser(); if (!user) return ...` with getUser from
+// @/lib/db/queries. Any other app file may read data only under the proxy-guarded
+// dashboard/. Anything else fails here, so a route or page that reads data without an
+// auth check cannot land unnoticed.
 
 const ROOT = path.resolve(__dirname, "../../..");
-const API = path.join(ROOT, "src/app/api");
+const APP = path.join(ROOT, "src/app");
+// src/proxy.ts requires a session for every page under it
+const DASHBOARD = "src/app/dashboard/";
 // every method Next.js routes to a handler export
 const METHODS = new Set(["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]);
 // better-auth's own handler is the sign-in endpoint, so it is public by design
@@ -20,10 +24,12 @@ const PUBLIC_ROUTES = ["src/app/api/auth/[...all]/route.ts"];
 // Next.js serves every extension in its default pageExtensions
 const isRouteFile = (name: string) => /^route\.[jt]sx?$/.test(name);
 
-const routeFiles = () =>
-  readdirSync(API, { recursive: true, encoding: "utf8" })
-    .filter((file) => isRouteFile(path.basename(file)))
-    .map((file) => path.relative(ROOT, path.join(API, file)));
+const appFiles = () =>
+  readdirSync(APP, { recursive: true, encoding: "utf8" }).map((file) =>
+    path.relative(ROOT, path.join(APP, file)),
+  );
+
+const routeFiles = () => appFiles().filter((file) => isRouteFile(path.basename(file)));
 
 // parent nodes let getText() read each node's source
 const parse = (code: string) => ts.createSourceFile("route.ts", code, ts.ScriptTarget.Latest, true);
@@ -87,6 +93,19 @@ const unguardedIn = (code: string): string[] =>
     .filter(({ name }) => METHODS.has(name) || name === "*")
     .filter(({ init }) => !init || !(isAdminWrapper(init, code) || checksUserFirst(init, code)))
     .map(({ name }) => name);
+
+// Static, dynamic and require imports of the database or a feature's server/, by @/ or relative
+// path (lint bans relative imports only in .ts/.tsx). Type-only imports count too: kept simple, safe side
+const DATA_IMPORT =
+  /(from|import|require)\s*\(?\s*["'](@|\.\.?(\/\.\.)*)\/(lib\/db|features\/[^"']*\/server)(?=["'/])/;
+const importsData = (code: string) => DATA_IMPORT.test(code);
+
+const publicDataReaders = () =>
+  appFiles()
+    .filter((file) => /\.[cm]?[jt]sx?$/.test(file) && !/\.test\.[cm]?[jt]sx?$/.test(file))
+    // route handlers have their own check below, wherever they live
+    .filter((file) => !isRouteFile(path.basename(file)) && !file.startsWith(DASHBOARD))
+    .filter((file) => importsData(readFileSync(path.join(ROOT, file), "utf8")));
 
 const WRAPPER_IMPORT = 'import { withAdmin, withAdminBody } from "@/lib/auth/middleware";';
 const USER_IMPORT = 'import { getUser } from "@/lib/db/queries";';
@@ -159,13 +178,42 @@ describe("route auth: rejected shapes", () => {
   });
 });
 
+describe("data access: import detection", () => {
+  it("flags static, dynamic, require and relative imports of the database or a feature's server/", () => {
+    expect(
+      [
+        'import { getUser } from "@/lib/db/queries";',
+        'import { db } from "@/lib/db";',
+        'import { listNotes } from "@/features/notes/server/notes";',
+        'const m = await import("@/features/notes/server/notes");',
+        'const { db } = require("@/lib/db");',
+        // lint bans relative imports in src/app only for .ts/.tsx
+        'import { getUser } from "../../lib/db/queries";',
+        'const m = await import("../../features/notes/server/notes");',
+      ].filter((code) => !importsData(code)),
+    ).toEqual([]);
+  });
+
+  it("leaves other imports alone", () => {
+    expect(
+      [
+        'import { NextResponse } from "next/server";',
+        'import { authClient } from "@/lib/auth-client";',
+        'import { x } from "@/lib/dbx";',
+        'import { x } from "@/lib/db-utils";',
+        'import { useNotes } from "@/features/notes/api/use-notes";',
+      ].filter(importsData),
+    ).toEqual([]);
+  });
+});
+
 describe("route auth: repo routes", () => {
   it("scans every route file extension Next.js serves", () => {
     expect(["route.ts", "route.tsx", "route.js", "route.jsx"].every(isRouteFile)).toBe(true);
     expect(["route.test.ts", "page.tsx", "router.ts"].some(isRouteFile)).toBe(false);
   });
 
-  it("leaves no API route handler without an auth check", () => {
+  it("leaves no route handler anywhere in src/app without an auth check", () => {
     const files = routeFiles().filter((file) => !PUBLIC_ROUTES.includes(file));
     const unguarded = files.flatMap((file) =>
       unguardedIn(readFileSync(path.join(ROOT, file), "utf8")).map((name) => `${file} ${name}`),
@@ -173,5 +221,9 @@ describe("route auth: repo routes", () => {
 
     expect(files.length).toBeGreaterThan(0);
     expect(unguarded).toEqual([]);
+  });
+
+  it("reads data only behind an auth check: in route handlers or proxy-guarded dashboard/ files", () => {
+    expect(publicDataReaders()).toEqual([]);
   });
 });

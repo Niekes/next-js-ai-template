@@ -87,9 +87,13 @@ the diagram and sync tests run under `pnpm test`.
   main component is `components/<name>-panel.tsx`, which its page frames.
   `src/lib/architecture/features.test.ts` enforces all three rules.
 - Page → `src/app/`, thin: it frames feature components (pages under
-  `src/app/dashboard/` require a session, see `src/proxy.ts`)
+  `src/app/dashboard/` require a session, see `src/proxy.ts`). Apart from route
+  handlers and files under `src/app/dashboard/`, no file in `src/app` may import
+  `@/lib/db` or a feature's `server/` (`route-auth.test.ts`); a public page
+  shows the user through `authClient.useSession()` instead
 - API route → `src/app/api/`, thin: every handler starts with an auth check
-  (`route-auth.test.ts`), then calls the feature's `server/`
+  (`route-auth.test.ts`, which checks `route.*` files in every folder of
+  `src/app`), then calls the feature's `server/`
 - Shared UI component → `src/components/app-*.tsx` (scaffold with
   `pnpm gen component <name>`), built on shadcn primitives in
   `src/components/ui/` (CLI-generated, never hand-edited). Only `app-*` files
