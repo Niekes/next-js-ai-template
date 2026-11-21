@@ -29,6 +29,9 @@ npx skills@latest add <owner/repo> -s <skill> -a codex -a claude-code -y
 npx skills@latest update -p
 ```
 
+The one first-party skill, `customize-template`, is not vendored: it lives
+directly in `.claude/skills/` and is edited like any other file.
+
 `/setup-matt-pocock-skills` has already been run and its output committed:
 issues live in GitHub Issues ([docs/agents/issue-tracker.md](agents/issue-tracker.md)),
 and the domain docs are single-context ([docs/agents/domain.md](agents/domain.md)).

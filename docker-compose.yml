@@ -10,6 +10,11 @@ services:
       - "127.0.0.1:54322:5432"
     volumes:
       - postgres_data:/var/lib/postgresql
+    # lets `docker compose up --wait` block until Postgres accepts connections
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 1s
+      retries: 30
 
 volumes:
   postgres_data:

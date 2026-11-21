@@ -4,9 +4,10 @@ A Next.js 16 App Router starter whose architecture, conventions and security
 rules are enforced by tools, not by prose. Better Auth (email + password,
 admin plugin), Drizzle + Postgres, TanStack Query, shadcn on Tailwind 4.
 
-`pnpm` is the package manager. Run `pnpm install`, `docker compose up -d`,
-`cp .env.example .env` (fill in `BETTER_AUTH_SECRET`), `pnpm db:migrate`,
-then `pnpm dev`.
+`pnpm` is the package manager. Run `make setup` (install, `.env` with a
+generated `BETTER_AUTH_SECRET`, Postgres, migrations), then `make start`;
+`make stop` stops Postgres and `make` lists every target. The `Makefile` only
+wraps the pnpm scripts and `docker compose`; without `make`, run those directly.
 
 Non-standard scripts: `pnpm db:generate|migrate|setup|studio`,
 `pnpm fallow|fallow:check|fallow:full`, `pnpm gen`, `pnpm security`,
@@ -82,6 +83,10 @@ Vendored in `.agents/skills/` (linked from `.claude/skills/`): `grilling`,
 `to-tickets`, `implement`, `ponytail`, `ponytail-review`, `ponytail-audit`,
 `ponytail-debt`, `modern-web-guidance`. The idea-to-code flow (grill, spec,
 tickets, implement) is in [docs/workflow.md](docs/workflow.md#flow).
+
+First-party, in `.claude/skills/` (not vendored, edit freely):
+`customize-template`, which turns this template into the user's own project
+by following the README's "Make it yours" list.
 
 Apply the `ponytail` skill to every code change. Use `modern-web-guidance`
 before writing HTML, CSS or client-side JS.

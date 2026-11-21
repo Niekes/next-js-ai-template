@@ -58,11 +58,25 @@ breaks them ([ADR 0001](docs/adr/0001-deterministic-gates-advisory-ai-layer.md))
 Tailwind 4 + shadcn · TanStack Query · zod · Drizzle + Postgres · Better Auth
 (email + password, admin role) · Vite+ (Oxlint, Oxfmt, Vitest) · Fallow.
 
+> **Using this as your own project?** After `make setup`, run
+> `/customize-template` in Claude Code. It renames the project, makes you the
+> owner, removes the template's star and sponsor links and, if you want,
+> deletes the notes example. See [Make it yours](#make-it-yours).
+
 ## Quick start
 
 ```bash
+make setup    # install, create .env with a secret, start Postgres, migrate
+make start    # Postgres + dev server; Ctrl+C stops the server
+make stop     # stop Postgres (data is kept)
+make          # list every target (test, lint, verify, db-studio, db-reset …)
+```
+
+Without `make` (e.g. on Windows):
+
+```bash
 pnpm install
-docker compose up -d                 # Postgres on :54322
+docker compose up -d --wait          # Postgres on :54322
 cp .env.example .env                 # then set BETTER_AUTH_SECRET (openssl rand -base64 32)
 pnpm db:migrate
 pnpm dev
@@ -118,15 +132,26 @@ routines with `/schedule`.
 
 ## Make it yours
 
+Fastest: after step 1 and `make setup`, run `/customize-template` in Claude
+Code. It works through this list with you. By hand:
+
 1. Click **Use this template** on GitHub (or `pnpm create next-app -e <repo-url>`).
-2. Rename the package in `package.json`, the title in `src/app/layout.tsx` and
-   the heading in `src/app/page.tsx`.
-3. Replace the terms in `GLOSSARY.md` with your domain's.
-4. Put your GitHub user or team in `.github/CODEOWNERS`, then protect `main`
+2. Rename the package in `package.json`, the title and description in
+   `src/app/layout.tsx`, the heading in `src/app/page.tsx` (and in
+   `src/app/page.test.tsx`), and the title and description at the top of this
+   README and `AGENTS.md`.
+3. Remove the template's promotion: the star and sponsor line in
+   `src/app/page.tsx` (and its test), and in this README the sponsor badges,
+   the star badge, the "kept alive by … sponsor" line, the Sponsor nav link,
+   the Sponsor and Sponsors sections and Star History. Point
+   `.github/FUNDING.yml` at your own account or delete it, and point the CI
+   badge URL at your repository.
+4. Replace the terms in `GLOSSARY.md` with your domain's.
+5. Put your GitHub user or team in `.github/CODEOWNERS`, then protect `main`
    with a ruleset that requires a pull request with code-owner review, so gate
    changes need a human. Add "GitHub Actions" to the ruleset's bypass list,
    or the CI job that commits the README badges to `main` cannot push.
-5. Keep the notes example as a reference until your first feature exists, then
+6. Keep the notes example as a reference until your first feature exists, then
    delete it (`src/features/notes/`, `src/lib/db/schema/notes.ts`,
    `src/app/api/notes/`, `src/app/dashboard/notes/`). Also remove what shared
    code keeps for it: the `./notes` export in `src/lib/db/schema/index.ts`, the
