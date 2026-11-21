@@ -2,13 +2,15 @@ import type { Instrumentation } from "next";
 
 /** Validates the environment at boot, so a bad env stops the server before it takes traffic. */
 export const register = async () => {
-  // Edge has no process.exit; the Node server is the one that must not come up
-  if (process.env.NEXT_RUNTIME !== "nodejs") return;
-  // Next only logs a failing register() and keeps serving, so exit to make the deploy fail visibly
-  await import("@/lib/env").catch((error: unknown) => {
-    console.error(error);
-    process.exit(1);
-  });
+  // Edge has no process.exit; this exact `===` form lets the bundler drop the block from the
+  // Edge build (an early return does not, and the build warns about process.exit)
+  if (process.env.NEXT_RUNTIME === "nodejs") {
+    // Next only logs a failing register() and keeps serving, so exit to make the deploy fail visibly
+    await import("@/lib/env").catch((error: unknown) => {
+      console.error(error);
+      process.exit(1);
+    });
+  }
 };
 
 /** Logs every server error once, without query string, headers, bodies or query values. */
