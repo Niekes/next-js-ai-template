@@ -168,6 +168,14 @@ Code. It works through this list with you. By hand:
 `BETTER_AUTH_SECRET` and `BETTER_AUTH_URL`, and run `pnpm db:migrate` against
 the production database before starting a new version.
 
+Run it behind a reverse proxy that sets `X-Forwarded-For` (nginx:
+`proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;`), and keep port
+3000 unreachable from outside. Sign-in is rate-limited per client IP, read from
+that header: a client that reaches the server directly can forge it, and
+without the header every user shares one limit. If more proxies sit in front of
+that one (a CDN in front of nginx), set `TRUSTED_PROXIES` to their addresses,
+comma-separated IPs or CIDR ranges such as the CDN's published ranges.
+
 ## Sponsor next-js-ai-template
 
 **next-js-ai-template** is free, and it always will be. There is no company

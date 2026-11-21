@@ -4,6 +4,7 @@ const envSchema = z.object({
   POSTGRES_URL: z.url(),
   BETTER_AUTH_SECRET: z.string().min(32),
   BETTER_AUTH_URL: z.url(),
+  TRUSTED_PROXIES: z.string().optional(),
 });
 
 type Env = z.infer<typeof envSchema>;

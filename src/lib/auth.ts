@@ -16,4 +16,14 @@ export const auth = betterAuth({
   }),
   emailAndPassword: { enabled: true },
   plugins: [admin({ defaultRole: "member" }), nextCookies()],
+  // Rate limits key on the client IP from X-Forwarded-For. A header holding a chain of IPs
+  // (several proxies, or a client-forged entry) only resolves with the outer proxies trusted
+  advanced: {
+    ipAddress: {
+      trustedProxies:
+        env.TRUSTED_PROXIES?.split(",")
+          .map((ip) => ip.trim())
+          .filter(Boolean) ?? [],
+    },
+  },
 });
