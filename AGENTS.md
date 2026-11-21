@@ -86,7 +86,7 @@ tickets, implement) is in [docs/workflow.md](docs/workflow.md#flow).
 
 First-party, in `.claude/skills/` (not vendored, edit freely):
 `customize-template`, which turns this template into the user's own project
-by following the README's "Make it yours" list.
+by following the checklist in its `SKILL.md`.
 
 Apply the `ponytail` skill to every code change. Use `modern-web-guidance`
 before writing HTML, CSS or client-side JS.
