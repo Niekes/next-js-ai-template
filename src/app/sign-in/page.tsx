@@ -41,14 +41,18 @@ const SignInPage = () => {
   };
 
   return (
-    <AppPage title={mode === "sign-in" ? "Sign in" : "Create account"}>
+    <AppPage
+      title={mode === "sign-in" ? "Sign in" : "Create account"}
+      // safe: a tall sign-up form on a short screen top-aligns instead of clipping
+      className="flex max-w-sm flex-col justify-center-safe"
+    >
       {/* onSubmit, not action: React resets an action form even when sign-in fails */}
       <form
         onSubmit={(event) => {
           event.preventDefault();
           void submit(new FormData(event.currentTarget));
         }}
-        className="grid max-w-sm gap-4"
+        className="grid gap-4"
       >
         {mode === "sign-up" && <AppInput label="Name" name="name" required autoComplete="name" />}
         <AppInput label="Email" name="email" type="email" required autoComplete="email" />
