@@ -31,6 +31,7 @@ const patternToNode = (pattern: string): string | undefined =>
 
 const NON_SLICE_PATTERNS: Record<string, string> = {
   "src/proxy.ts": "root",
+  "src/instrumentation.ts": "root",
 };
 
 const diagram = parsePuml(PUML);

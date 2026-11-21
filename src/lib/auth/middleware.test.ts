@@ -52,4 +52,13 @@ describe("parseBody", () => {
 
     expect(result.ok ? 200 : result.response.status).toBe(400);
   });
+
+  it("sends a readable error with the field issues", async () => {
+    const result = await parseBody(post('{"text":1}'), schema);
+
+    expect(result.ok ? null : await result.response.json()).toEqual({
+      error: "Invalid input",
+      issues: ["text: Invalid input: expected string, received number"],
+    });
+  });
 });

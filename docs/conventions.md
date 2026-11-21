@@ -10,6 +10,14 @@
   in `src/proxy.ts`.
 - **Validation**: request bodies go through a zod schema and `parseBody`. The
   schema lives in the feature's `api/`, so client and server share it.
+- **Errors** ([ADR 0004](adr/0004-typed-errors-without-effect.md)): return
+  errors the caller should handle as a union
+  (`{ ok: true, … } | { ok: false, … }`, like `parseBody`); throw the
+  unexpected ones and let them propagate. API errors have the body
+  `{ error: string, issues?: string[] }`, which `fetchJson` turns into a thrown
+  `Error`. Server errors are logged once in `src/instrumentation.ts`, and
+  `src/app/error.tsx` and `global-error.tsx` render them. Don't wrap routes in
+  try/catch.
 - **Data mutations**: API route → TanStack Query `useMutation` →
   `queryClient.invalidateQueries({ queryKey })` on success.
 - **Query keys**: define and consume every key through the `queryKeys` store in

@@ -24,8 +24,8 @@ App code is under `src/`, in bulletproof-react layers (imports flow
 shared → features → app): **app** (`src/app/`, thin routing, pages and API
 routes), **features** (`src/features/<name>/`, one zone each, never importing
 each other), **shared** (`src/components/`, `src/lib/`, `src/const/`), and
-**root** (`src/proxy.ts`, page protection). Tooling lives at the repo root and
-in `scripts/`. `src/features/notes` with `src/app/api/notes` and
+**root** (`src/proxy.ts`, page protection; `src/instrumentation.ts`, error
+logging). Tooling lives at the repo root and in `scripts/`. `src/features/notes` with `src/app/api/notes` and
 `src/app/dashboard/notes` is a worked example that crosses every zone.
 
 ## Protected paths
