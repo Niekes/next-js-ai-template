@@ -26,7 +26,13 @@ export const parseBody = async <T>(
   if (!parsed.success) {
     return {
       ok: false,
-      response: NextResponse.json({ error: z.treeifyError(parsed.error).errors }, { status: 400 }),
+      response: NextResponse.json(
+        {
+          error: "Invalid input",
+          issues: parsed.error.issues.map((issue) => [...issue.path, issue.message].join(": ")),
+        },
+        { status: 400 },
+      ),
     };
   }
   return { ok: true, data: parsed.data };

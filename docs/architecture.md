@@ -9,7 +9,7 @@ explicitly in `.fallowrc.json` (no preset).
 | **app**      | `src/app/**`                                      | features, shared |
 | **features** | `src/features/<name>/**`, one zone per feature    | shared           |
 | **shared**   | `src/components/**`, `src/lib/**`, `src/const/**` | nothing          |
-| **root**     | `src/proxy.ts`                                    | shared           |
+| **root**     | `src/proxy.ts`, `src/instrumentation.ts`          | shared           |
 
 `autoDiscover` gives every folder under `src/features/` its own zone, so a
 feature cannot import another feature. Code two features need moves to shared;
@@ -62,9 +62,10 @@ Key consequences:
   UI. Fallow cannot see this edge (both are in `shared`); the diagram test is
   the only gate for it.
 - `const/` is a leaf: exports only, imports nothing from other zones.
-- `src/proxy.ts` (route protection) is a root entry point that may import from
-  `lib/` and `const/`. It sits directly under `src/`, so the diagram test does
-  not cover it — Fallow's `root` zone does.
+- `src/proxy.ts` (route protection) and `src/instrumentation.ts` (server error
+  logging) are root entry points that may import from `lib/` and `const/`.
+  They sit directly under `src/`, so the diagram test does not cover them —
+  Fallow's `root` zone does.
 
 Check zones with `pnpm exec fallow list --boundaries`; check violations with
 `pnpm exec fallow dead-code --boundary-violations`.

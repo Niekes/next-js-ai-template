@@ -44,7 +44,7 @@
       },
       {
         "name": "root",
-        "patterns": ["src/proxy.ts"],
+        "patterns": ["src/proxy.ts", "src/instrumentation.ts"],
         "root": "."
       }
     ],
@@ -76,6 +76,7 @@
         "postcss.config.mjs",
         "plopfile.mjs",
         "src/proxy.test.ts",
+        "src/instrumentation.test.ts",
         "scripts/**"
       ]
     }
