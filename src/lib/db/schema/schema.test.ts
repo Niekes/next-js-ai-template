@@ -13,6 +13,7 @@ describe("schema", () => {
       "session",
       "account",
       "verification",
+      "rate_limit",
       "note",
     ]);
   });

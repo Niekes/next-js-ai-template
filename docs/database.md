@@ -24,6 +24,8 @@ Data backfills go in a custom migration created with
 The auth tables in `src/lib/db/schema/auth.ts` follow Better Auth's schema
 plus its admin plugin. Adding a Better Auth plugin usually adds columns or
 tables; check the plugin docs, extend the schema, then generate.
+`rate_limit` holds Better Auth's rate-limit counters, so every replica shares
+them; Better Auth prunes expired rows itself.
 
 ## Tests
 
