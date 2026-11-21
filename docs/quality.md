@@ -25,9 +25,10 @@ pnpm's. `pnpm lint` fails on warnings as well: every rule is an error and
 
 CI (`.github/workflows/ci.yml`) runs the same scripts on every push and pull
 request, with placeholder env values for the build, plus `pnpm audit` and
-zizmor, which need the network. On pushes to `main` it
-regenerates the README badges (`.github/badges/`) and commits them with
-`[skip ci]`.
+zizmor, which need the network. On pushes to `main` the test job
+regenerates the README badges (`.github/badges/`), and a separate job that
+installs nothing commits them with `[skip ci]`, so no dependency code runs
+next to the write token. The build job also runs `docker build .`.
 
 ## Tests and coverage
 
