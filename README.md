@@ -43,7 +43,7 @@
   <a href="#what-keeps-the-code-in-shape">Guardrails</a> ·
   <a href="#recurring-maintenance">Maintenance</a> ·
   <a href="#for-ai-agents">For AI agents</a> ·
-  <a href="#make-it-yours">Make it yours</a> ·
+  <a href="#how-work-flows">How work flows</a> ·
   <a href="#deploy">Deploy</a> ·
   <a href="#sponsor-next-js-ai-template">Sponsor</a> ·
   <a href="#license">License</a>
@@ -58,10 +58,13 @@ breaks them ([ADR 0001](docs/adr/0001-deterministic-gates-advisory-ai-layer.md))
 Tailwind 4 + shadcn · TanStack Query · zod · Drizzle + Postgres · Better Auth
 (email + password, admin role) · Vite+ (Oxlint, Oxfmt, Vitest) · Fallow.
 
-> **Using this as your own project?** After `make setup`, run
+> **Using this as your own project?** Click **Use this template**, then
+> after `make setup`, run
 > `/customize-template` in Claude Code. It renames the project, makes you the
 > owner, removes the template's star and sponsor links and, if you want,
-> deletes the notes example. See [Make it yours](#make-it-yours).
+> deletes the notes example. Not using Claude Code? Follow the steps in
+> [`.claude/skills/customize-template/SKILL.md`](.claude/skills/customize-template/SKILL.md#steps)
+> by hand.
 
 ## Quick start
 
@@ -130,37 +133,24 @@ routines with `/schedule`.
 - `.agents/skills/` — vendored skills (grilling, spec, tickets, implement, domain modeling, TDD, review, Fallow, security audit, ponytail, Chrome's [Modern Web Guidance](https://developer.chrome.com/docs/modern-web-guidance/get-started)); the flow is in [docs/workflow.md](docs/workflow.md#flow)
 - `pnpm gen component <name>` / `pnpm gen feature <name>` — scaffold convention-correct code with a test
 
-## Make it yours
+## How work flows
 
-Fastest: after step 1 and `make setup`, run `/customize-template` in Claude
-Code. It works through this list with you. By hand:
+Every change in this repo goes through the same skills, from idea to pull
+request. Details are in [docs/workflow.md](docs/workflow.md#flow).
 
-1. Click **Use this template** on GitHub (or `pnpm create next-app -e <repo-url>`).
-2. Rename the package in `package.json`, the title and description in
-   `src/app/layout.tsx`, the heading in `src/app/page.tsx` (and in
-   `src/app/page.test.tsx`), and the title and description at the top of this
-   README and `AGENTS.md`.
-3. Remove the template's promotion: the star and sponsor line in
-   `src/app/page.tsx` (and its test), and in this README the sponsor badges,
-   the star badge, the "kept alive by … sponsor" line, the Sponsor nav link,
-   the Sponsor and Sponsors sections and Star History. Point
-   `.github/FUNDING.yml` at your own account or delete it, and point the CI
-   badge URL at your repository.
-4. Replace the terms in `GLOSSARY.md` with your domain's.
-5. Put your GitHub user or team in `.github/CODEOWNERS`, then protect `main`
-   with a ruleset that requires a pull request with code-owner review, so gate
-   changes need a human. Add "GitHub Actions" to the ruleset's bypass list,
-   or the CI job that commits the README badges to `main` cannot push.
-6. Keep the notes example as a reference until your first feature exists, then
-   delete it (`src/features/notes/`, `src/lib/db/schema/notes.ts`,
-   `src/app/api/notes/`, `src/app/dashboard/notes/`). Also remove what shared
-   code keeps for it: the `./notes` export in `src/lib/db/schema/index.ts`, the
-   `notes` key in `src/lib/query-keys.ts`, and `ROUTES.notes` in
-   `src/const/routes.ts`, whose users (the home page link and the after-sign-in
-   default in `src/lib/forms.ts`) should point at your feature instead. Update
-   the tests that name notes (`src/lib/forms.test.ts`,
-   `src/lib/db/drizzle.test.ts`, `src/lib/db/schema/schema.test.ts`). Then run
-   `pnpm db:generate` and `pnpm verify`.
+```mermaid
+flowchart TD
+    idea([Idea]) --> grill["/grill-with-docs<br/>interview, GLOSSARY.md, ADRs"]
+    grill --> size{Fits one session?}
+    size -- yes --> impl
+    size -- no --> spec["/to-spec<br/>spec issue"]
+    spec --> tickets["/to-tickets<br/>vertical-slice issues"]
+    tickets --> clear["/clear<br/>fresh context per ticket"]
+    clear --> impl["/implement<br/>/tdd, /code-review, pnpm verify, commit"]
+    impl --> more{More unblocked tickets?}
+    more -- yes --> clear
+    more -- no --> pr([Pull request])
+```
 
 ## Deploy
 
