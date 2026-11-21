@@ -11,11 +11,18 @@ type Env = z.infer<typeof envSchema>;
 
 const parsed = envSchema.safeParse(process.env);
 
-// Without this, a missing .env surfaces later as a confusing DB or auth error
-if (!parsed.success && process.env.NODE_ENV === "development") {
-  console.warn(`Invalid environment, check .env:\n${z.prettifyError(parsed.error)}`);
+if (!parsed.success) {
+  const message = `Invalid environment, check .env:\n${z.prettifyError(parsed.error)}`;
+  // A running production server must not start with a weak secret or a broken database URL
+  if (
+    process.env.NODE_ENV === "production" &&
+    process.env.NEXT_PHASE !== "phase-production-build"
+  ) {
+    throw new Error(message);
+  }
+  // Without this, a missing .env surfaces later as a confusing DB or auth error
+  if (process.env.NODE_ENV === "development") console.warn(message);
 }
 
-// shortcut: `next build` and tests run without a real .env, so an invalid env falls back to the raw
-// values instead of throwing; throw here once builds get real env values
+// `next build` and tests run without a real .env, so there an invalid env falls back to the raw values
 export const env: Env = parsed.success ? parsed.data : (process.env as unknown as Env);

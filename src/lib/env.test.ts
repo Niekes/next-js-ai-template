@@ -22,9 +22,20 @@ describe("env", () => {
     expect(await loadEnv(VALID)).toEqual(VALID);
   });
 
-  it("falls back to the raw environment, silently outside next dev, when a variable is invalid", async () => {
+  it("throws and names the invalid variable when a production server starts", async () => {
+    await expect(
+      loadEnv({ ...VALID, BETTER_AUTH_SECRET: "short", NODE_ENV: "production" }),
+    ).rejects.toThrow("BETTER_AUTH_SECRET");
+  });
+
+  it("falls back to the raw environment, silently, during next build", async () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
-    const env = await loadEnv({ ...VALID, BETTER_AUTH_SECRET: "short" });
+    const env = await loadEnv({
+      ...VALID,
+      BETTER_AUTH_SECRET: "short",
+      NODE_ENV: "production",
+      NEXT_PHASE: "phase-production-build",
+    });
 
     expect(env.BETTER_AUTH_SECRET).toBe("short");
     expect(warn).not.toHaveBeenCalled();

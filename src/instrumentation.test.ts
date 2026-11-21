@@ -1,7 +1,7 @@
 import { DrizzleQueryError } from "drizzle-orm";
 import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 
-import { onRequestError } from "./instrumentation";
+import { onRequestError, register } from "./instrumentation";
 
 const log = vi.spyOn(console, "error").mockImplementation(() => {});
 
@@ -66,5 +66,35 @@ describe("onRequestError", () => {
       "Request failed",
       expect.objectContaining({ message: "boom" }),
     );
+  });
+});
+
+describe("register", () => {
+  const exit = vi.spyOn(process, "exit").mockImplementation(() => undefined as never);
+
+  const boot = async (runtime: string) => {
+    vi.stubEnv("NEXT_RUNTIME", runtime);
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("BETTER_AUTH_SECRET", "short");
+    vi.resetModules();
+    await register();
+  };
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+    exit.mockClear();
+  });
+
+  it("exits a production Node server at boot when the environment is invalid", async () => {
+    await boot("nodejs");
+
+    expect(exit).toHaveBeenCalledWith(1);
+    expect(String(log.mock.calls.at(-1)?.[0])).toContain("BETTER_AUTH_SECRET");
+  });
+
+  it("skips the check in the edge runtime, which has no process.exit", async () => {
+    await boot("edge");
+
+    expect(exit).not.toHaveBeenCalled();
   });
 });
