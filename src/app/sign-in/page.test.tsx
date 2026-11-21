@@ -1,4 +1,5 @@
 // @vitest-environment jsdom
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
@@ -13,6 +14,14 @@ vi.mock("@/lib/auth-client", () => ({
 }));
 
 const { default: SignInPage } = await import("@/app/sign-in/page");
+
+const queryClient = new QueryClient();
+const renderPage = () =>
+  render(<SignInPage />, {
+    wrapper: ({ children }) => (
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    ),
+  });
 
 const fill = (label: string, value: string) => {
   fireEvent.change(screen.getByLabelText(label), { target: { value } });
@@ -32,7 +41,8 @@ beforeEach(() => {
 describe("SignInPage", () => {
   it("signs in and returns to the requested page", async () => {
     signIn.mockResolvedValue({ error: null });
-    render(<SignInPage />);
+    queryClient.setQueryData(["previous-user"], "their notes");
+    renderPage();
 
     submit("Sign in");
 
@@ -40,11 +50,12 @@ describe("SignInPage", () => {
       expect(push).toHaveBeenCalledWith("/dashboard/x");
     });
     expect(signIn).toHaveBeenCalledWith({ email: "a@example.com", password: "password123" });
+    expect(queryClient.getQueryCache().getAll()).toEqual([]);
   });
 
   it("shows the server's error and keeps what the user typed", async () => {
     signIn.mockResolvedValue({ error: { message: "Invalid email or password" } });
-    render(<SignInPage />);
+    renderPage();
 
     submit("Sign in");
 
@@ -55,7 +66,7 @@ describe("SignInPage", () => {
 
   it("falls back to a generic error without a message", async () => {
     signIn.mockResolvedValue({ error: {} });
-    render(<SignInPage />);
+    renderPage();
 
     submit("Sign in");
 
@@ -64,7 +75,7 @@ describe("SignInPage", () => {
 
   it("creates an account with a name, and can switch back", async () => {
     signUp.mockResolvedValue({ error: null });
-    render(<SignInPage />);
+    renderPage();
 
     fireEvent.click(screen.getByRole("button", { name: "No account yet? Create one" }));
     fill("Name", "Ada");
@@ -90,7 +101,7 @@ describe("SignInPage while a request runs", () => {
         finish = resolve;
       }),
     );
-    render(<SignInPage />);
+    renderPage();
     fireEvent.click(screen.getByRole("button", { name: "No account yet? Create one" }));
     fill("Name", "Ada");
 
@@ -111,7 +122,7 @@ describe("SignInPage while a request runs", () => {
 describe("SignInPage on a network error", () => {
   it("shows an error and re-enables the button when the request throws", async () => {
     signIn.mockRejectedValue(new TypeError("Failed to fetch"));
-    render(<SignInPage />);
+    renderPage();
 
     submit("Sign in");
 

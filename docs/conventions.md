@@ -15,7 +15,9 @@
   (`{ ok: true, … } | { ok: false, … }`, like `parseBody`); throw the
   unexpected ones and let them propagate. API errors have the body
   `{ error: string, issues?: string[] }`, which `fetchJson` turns into a thrown
-  `Error`. Server errors are logged once in `src/instrumentation.ts`, and
+  `Error` with the HTTP `status`. A 401 is handled once in `src/app/providers.tsx`
+  (refresh, so `src/proxy.ts` sends the user to sign-in); don't handle it per
+  component. Server errors are logged once in `src/instrumentation.ts`, and
   `src/app/error.tsx` and `global-error.tsx` render them. Don't wrap routes in
   try/catch.
 - **Data mutations**: API route → TanStack Query `useMutation` →

@@ -1,5 +1,6 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -14,13 +15,17 @@ type Mode = "sign-in" | "sign-up";
 const submitCredentials = (mode: Mode, form: FormData) => {
   const email = formText(form, "email");
   const password = formText(form, "password");
-  return mode === "sign-in"
-    ? authClient.signIn.email({ email, password })
-    : authClient.signUp.email({ email, password, name: formText(form, "name") });
+  const request =
+    mode === "sign-in"
+      ? authClient.signIn.email({ email, password })
+      : authClient.signUp.email({ email, password, name: formText(form, "name") });
+  // better-fetch throws (not returns) on network errors, so both paths re-enable the button
+  return request.catch(() => ({ error: { message: undefined } }));
 };
 
 const SignInPage = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [mode, setMode] = useState<Mode>("sign-in");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
@@ -28,15 +33,14 @@ const SignInPage = () => {
   const submit = async (form: FormData) => {
     setError(null);
     setPending(true);
-    // better-fetch throws (not returns) on network errors, so both paths re-enable the button
-    const result = await submitCredentials(mode, form).catch(() => ({
-      error: { message: undefined },
-    }));
+    const result = await submitCredentials(mode, form);
     if (result.error) {
       setPending(false);
       setError(result.error.message ?? "Sign-in failed");
       return;
     }
+    // cache keys are not per user; drop what an expired session left behind
+    queryClient.clear();
     router.push(returnPath(window.location.search));
   };
 
