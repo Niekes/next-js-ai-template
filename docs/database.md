@@ -3,7 +3,8 @@
 Drizzle ORM on Postgres (`postgres` driver). Schema and queries live in
 `src/lib/db/`; migrations output to `src/lib/db/migrations/`.
 
-Start the local database with `docker compose up -d` (port `54322`).
+Start the local database with `make start` or `docker compose up -d --wait`
+(port `54322`).
 
 ## Migrations
 

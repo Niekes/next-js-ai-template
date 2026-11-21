@@ -11,6 +11,16 @@ const HomePage = () => (
     <Link href={ROUTES.notes} className="underline">
       Open your notes
     </Link>
+    <p className="mt-8 text-sm text-muted-foreground">
+      Like this template?{" "}
+      <a href="https://github.com/Niekes/next-js-ai-template" className="underline">
+        ⭐ Star it on GitHub
+      </a>{" "}
+      ·{" "}
+      <a href="https://github.com/sponsors/niekes" className="underline">
+        💖 Sponsor
+      </a>
+    </p>
   </AppPage>
 );
 
