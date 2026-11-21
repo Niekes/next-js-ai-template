@@ -79,8 +79,14 @@ Vendored in `.agents/skills/` (linked from `.claude/skills/`): `grilling`,
 `grill-with-docs`, `domain-modeling`, `codebase-design`, `tdd`,
 `diagnosing-bugs`, `prototype`, `research`, `code-review`, `fallow`,
 `fallow-review`, `security-audit`, `setup-matt-pocock-skills`, `to-spec`,
-`to-tickets`, `implement`. The idea-to-code flow (grill, spec, tickets,
-implement) is in [docs/workflow.md](docs/workflow.md#flow).
+`to-tickets`, `implement`, `ponytail`, `ponytail-review`, `ponytail-audit`,
+`ponytail-debt`, `modern-web-guidance`. The idea-to-code flow (grill, spec,
+tickets, implement) is in [docs/workflow.md](docs/workflow.md#flow).
+
+Apply the `ponytail` skill to every code change. Use `modern-web-guidance`
+before writing HTML, CSS or client-side JS.
+
+This project's Baseline target is Baseline Widely available.
 
 ## Agent skills
 
