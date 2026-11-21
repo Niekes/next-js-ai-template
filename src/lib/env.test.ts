@@ -14,6 +14,7 @@ const loadEnv = async (vars: Record<string, string | undefined>) => {
 
 afterEach(() => {
   vi.unstubAllEnvs();
+  vi.restoreAllMocks();
 });
 
 describe("env", () => {
@@ -21,9 +22,19 @@ describe("env", () => {
     expect(await loadEnv(VALID)).toEqual(VALID);
   });
 
-  it("falls back to the raw environment when a variable is invalid", async () => {
+  it("falls back to the raw environment, silently outside next dev, when a variable is invalid", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const env = await loadEnv({ ...VALID, BETTER_AUTH_SECRET: "short" });
 
     expect(env.BETTER_AUTH_SECRET).toBe("short");
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  it("names the invalid variable during next dev, so a missing .env is not a mystery", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    await loadEnv({ ...VALID, POSTGRES_URL: undefined, NODE_ENV: "development" });
+
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining("POSTGRES_URL"));
   });
 });

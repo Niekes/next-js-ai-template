@@ -128,8 +128,14 @@ routines with `/schedule`.
    or the CI job that commits the README badges to `main` cannot push.
 5. Keep the notes example as a reference until your first feature exists, then
    delete it (`src/features/notes/`, `src/lib/db/schema/notes.ts`,
-   `src/app/api/notes/`, `src/app/dashboard/notes/`)
-   and run `pnpm db:generate`.
+   `src/app/api/notes/`, `src/app/dashboard/notes/`). Also remove what shared
+   code keeps for it: the `./notes` export in `src/lib/db/schema/index.ts`, the
+   `notes` key in `src/lib/query-keys.ts`, and `ROUTES.notes` in
+   `src/const/routes.ts`, whose users (the home page link and the after-sign-in
+   default in `src/lib/forms.ts`) should point at your feature instead. Update
+   the tests that name notes (`src/lib/forms.test.ts`,
+   `src/lib/db/drizzle.test.ts`, `src/lib/db/schema/schema.test.ts`). Then run
+   `pnpm db:generate` and `pnpm verify`.
 
 ## Deploy
 
